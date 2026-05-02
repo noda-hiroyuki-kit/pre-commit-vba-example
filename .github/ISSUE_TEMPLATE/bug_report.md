@@ -66,15 +66,3 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
-
----
-
-name: バグ報告
-about: レポートを作成してご協力ください
-title: ''
-labels: ''
-assignees: ''
-
----
-
----
