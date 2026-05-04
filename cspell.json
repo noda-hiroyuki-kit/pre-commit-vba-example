@@ -1,0 +1,11 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "dictionaries": ["python", "powershell"],
+    "ignorePaths": [
+        "*.svg"
+    ],
+    "words": [
+        "EDITMSG"
+    ]
+}
