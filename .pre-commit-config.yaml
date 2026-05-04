@@ -15,10 +15,7 @@ repos:
           - --no-must-find-files
           - --no-progress
           - --no-summary
-          - --files
-          - .git/COMMIT_EDITMSG
         stages: [commit-msg]
-        always_run: true # This might not be necessary.
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
