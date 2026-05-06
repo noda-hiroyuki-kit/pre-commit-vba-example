@@ -8,6 +8,7 @@
         </group>
         <group id="AppIntroductionGroup" label="App Introduction" centerVertically="true">
             <button id="AppIntroductionButton" label="App Introduction" imageMso="ItemProperties" size="normal" onAction="SampleTabModule.AppIntroductionButton_onAction"/>
+            <button id="AppVersionsButton" label="App Versions" imageMso="ItemProperties" size="normal" onAction="SampleTabModule.AppVersionsButton_onAction"/>
         </group>
         <group id="RegisterProductGroup" label="Register Product" centerVertically="true">
             <button id="RegisterProductButton" label="Register Product" imageMso="FileProperties" size="normal" onAction="SampleTabModule.RegisterProductButton_onAction"/>
