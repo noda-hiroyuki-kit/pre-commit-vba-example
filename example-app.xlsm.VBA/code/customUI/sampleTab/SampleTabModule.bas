@@ -32,3 +32,9 @@ Private Sub AppIntroductionButton_onAction(ByVal control As IRibbonControl)
     ThisAppModule.showAppIntroduction
     Excel.Application.EnableEvents = True
 End Sub
+
+Private Sub RegisterProductButton_onAction(ByVal control As IRibbonControl)
+    Excel.Application.EnableEvents = False
+    ShowFormModule.registerProduct
+    Excel.Application.EnableEvents = True
+End Sub
