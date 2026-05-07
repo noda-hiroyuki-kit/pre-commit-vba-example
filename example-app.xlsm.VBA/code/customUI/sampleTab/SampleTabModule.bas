@@ -23,30 +23,50 @@ End Sub
 
 '@Ignore ProcedureNotUsed
 Public Sub SampleButton_onAction(ByVal control As IRibbonControl)
+    On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
     MsgBox "Clicked Search Button!" & vbNewLine _
          & "Text Box value is " & this.SampleText, _
            vbSystemModal + vbInformation + vbOKOnly
+ErrorHandler:
     Excel.Application.EnableEvents = True
+    On Error GoTo 0
+    If Err.Number = 0 Then Exit Sub
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 '@Ignore ProcedureNotUsed
 Public Sub AppIntroductionButton_onAction(ByVal control As IRibbonControl)
+    On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
     ThisAppModule.showAppIntroduction
+ErrorHandler:
     Excel.Application.EnableEvents = True
+    On Error GoTo 0
+    If Err.Number = 0 Then Exit Sub
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 '@Ignore ProcedureNotUsed
 Public Sub AppVersionsButton_onAction(ByVal control As IRibbonControl)
+    On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
     ThisAppModule.showVersion
+ErrorHandler:
     Excel.Application.EnableEvents = True
+    On Error GoTo 0
+    If Err.Number = 0 Then Exit Sub
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 '@Ignore ProcedureNotUsed
 Public Sub RegisterProductButton_onAction(ByVal control As IRibbonControl)
+    On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
     ShowFormModule.registerProduct
+ErrorHandler:
     Excel.Application.EnableEvents = True
+    On Error GoTo 0
+    If Err.Number = 0 Then Exit Sub
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub

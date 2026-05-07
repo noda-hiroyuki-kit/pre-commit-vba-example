@@ -1,12 +1,11 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} RegisterProductForm
    Caption         =   "RegisterProductForm"
-   ClientHeight    =   2676
-   ClientLeft      =   60
-   ClientTop       =   264
-   ClientWidth     =   4092
+   ClientHeight    =   2136
+   ClientLeft      =   108
+   ClientTop       =   456
+   ClientWidth     =   3264
    OleObjectBlob   =   "RegisterProductForm.frx":0000
-   StartUpPosition =   1  'オーナー フォームの中央
 End
 Attribute VB_Name = "RegisterProductForm"
 Attribute VB_GlobalNameSpace = False
