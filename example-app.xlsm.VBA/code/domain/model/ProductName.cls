@@ -27,12 +27,12 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Property Get Value() As String
-    If Not this.Created Then Err.Raise AppError.NOT_CREATED, , "Product name has not created."
+    If Not this.Created Then Err.Raise AppError.NOT_CREATED, , "Product name has not been created."
     Value = this.Value
 End Property
 
 Public Sub Create(ByVal ValueArg As String)
-    If this.Created Then Err.Raise AppError.HAS_CREATED, , "Product name has Already created."
+    If this.Created Then Err.Raise AppError.HAS_CREATED, , "Product name has already been created."
     Dim result As ValidationResult: Set result = IsValid(ValueArg)
     If Not result.result = Valid Then Err.Raise AppError.INVALID_VALUE, , result.Message
     this.Value = ValueArg
