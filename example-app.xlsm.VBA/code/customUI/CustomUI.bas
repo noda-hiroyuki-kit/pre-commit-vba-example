@@ -5,7 +5,7 @@ Option Explicit
 
 Public p_ribbon As IRibbonUI
 
-Private Sub OnLoad(ByVal ribbon As IRibbonUI)
+Public Sub OnLoad(ByVal ribbon As IRibbonUI)
     'This is the only time you can get an instance of the ribbon.
     'Make sure to keep a reference to the ribbon in a variable here.
     'リボンのインスタンスを取得できる唯一の機会です
