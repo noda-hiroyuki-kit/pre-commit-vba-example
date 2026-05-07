@@ -17,7 +17,7 @@ Option Explicit
 
 Implements IForm
 
-Private Type TProductCodeResistorForm
+Private Type TProductCodeRegisterForm
     cancelled As Boolean
     Product As Product
     codeResult As ValidationResult
@@ -27,7 +27,7 @@ End Type
 Private GREEN As Long
 Private RED As Long
 
-Private this As TProductCodeResistorForm
+Private this As TProductCodeRegisterForm
 
 Public Property Get IsCancelled() As Boolean
     IsCancelled = this.cancelled
@@ -56,7 +56,8 @@ Private Sub textBoxChange()
     Set this.nameResult = this.Product.Name.IsValid(ProductNameTextBox.Text)
     ValidateForm
 End Sub
-Private Sub ResisterCommandButton_Click()
+
+Private Sub RegisterCommandButton_Click()
     On Error GoTo ErrorHandler
     this.Product.code.Create ProductCodeTextBox.Text
     this.Product.Name.Create ProductNameTextBox.Text
@@ -84,9 +85,9 @@ Private Sub OnCancel()
 End Sub
 
 Private Sub ValidateForm()
-    Me.ResisterCommandButton.Enabled = _
-        (this.codeResult.result = Valid) _
-        And (this.nameResult.result = Valid)
+    Me.RegisterCommandButton.Enabled = _
+                                     (this.codeResult.result = Valid) _
+                                     And (this.nameResult.result = Valid)
     setLabelProperties Me.CodeValidationMessageLabel, this.codeResult
     setLabelProperties Me.NameValidationMessageLabel, this.nameResult
 End Sub
