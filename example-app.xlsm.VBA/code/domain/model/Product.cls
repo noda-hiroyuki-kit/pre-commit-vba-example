@@ -11,14 +11,14 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Type TProduct
-    code As ProductCode
+    Code As ProductCode
     Name As ProductName
 End Type
 
 Private this As TProduct
 
-Public Property Get code() As ProductCode
-    Set code = this.code
+Public Property Get Code() As ProductCode
+    Set Code = this.Code
 End Property
 
 Public Property Get Name() As ProductName
@@ -26,6 +26,6 @@ Public Property Get Name() As ProductName
 End Property
 
 Private Sub Class_Initialize()
-    Set this.code = New ProductCode
+    Set this.Code = New ProductCode
     Set this.Name = New ProductName
 End Sub

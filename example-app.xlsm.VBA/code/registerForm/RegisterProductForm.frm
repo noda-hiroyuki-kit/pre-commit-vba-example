@@ -53,14 +53,14 @@ Private Sub ProductNameTextBox_Change()
 End Sub
 
 Private Sub textBoxChange()
-    Set this.codeResult = this.Product.code.IsValid(ProductCodeTextBox.Text)
+    Set this.codeResult = this.Product.Code.IsValid(ProductCodeTextBox.Text)
     Set this.nameResult = this.Product.Name.IsValid(ProductNameTextBox.Text)
     ValidateForm
 End Sub
 
 Private Sub RegisterCommandButton_Click()
     On Error GoTo ErrorHandler
-    this.Product.code.Create ProductCodeTextBox.Text
+    this.Product.Code.Create ProductCodeTextBox.Text
     this.Product.Name.Create ProductNameTextBox.Text
     Me.Hide
 ErrorHandler:
