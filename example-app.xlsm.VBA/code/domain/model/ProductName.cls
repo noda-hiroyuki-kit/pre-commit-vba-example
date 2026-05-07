@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 '@Folder("domain.model")
 Option Explicit
-' Product Code Class
+' Product Name Class
 
 Private Const MIN_LENGTH As Long = 1
 Private Const MAX_LENGTH As Long = 255
