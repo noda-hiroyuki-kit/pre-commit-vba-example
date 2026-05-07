@@ -13,6 +13,7 @@
 		"excel": {
 			"command": "npx",
 			"args": [
+				"--yes",
 				"github:prizmPrograms/excel-mcp-server"
 			]
 		}
