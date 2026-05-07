@@ -29,6 +29,7 @@ Private RED As Long
 
 Private this As TProductCodeRegisterForm
 
+'@Ignore ProcedureNotUsed
 Public Property Get IsCancelled() As Boolean
     IsCancelled = this.cancelled
 End Property

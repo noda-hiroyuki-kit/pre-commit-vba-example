@@ -63,6 +63,7 @@ Public Property Get Fakes() As Rubberduck.FakesProvider
     Set Fakes = this.Fakes
 End Property
 
+'@Ignore ProcedureNotUsed
 Public Property Get Mocks() As Rubberduck.MockProvider
     Set Mocks = this.Mocks
 End Property

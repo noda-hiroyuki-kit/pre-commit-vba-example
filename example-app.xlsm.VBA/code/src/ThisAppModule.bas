@@ -8,7 +8,7 @@ Public Sub showAppIntroduction()
 End Sub
 
 Public Sub showVersion()
-    MsgBox "example-app" & vbNewLine & ThisWorkbook.BuiltinDocumentProperties("Document Version").Value, _
+    MsgBox "example-app" & vbNewLine & ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value, _
         vbOKOnly + vbSystemModal + vbInformation
 End Sub
 
@@ -20,5 +20,5 @@ Public Sub setVersion()
 End Sub
 
 Private Sub setDocumentVersion(ByVal version As String)
-    ThisWorkbook.BuiltinDocumentProperties("Document Version").Value = version
+    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = version
 End Sub
