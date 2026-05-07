@@ -57,9 +57,14 @@ Private Sub textBoxChange()
     ValidateForm
 End Sub
 Private Sub ResisterCommandButton_Click()
+    On Error GoTo ErrorHandler
     this.Product.code.Create ProductCodeTextBox.Text
     this.Product.Name.Create ProductNameTextBox.Text
     Me.Hide
+ErrorHandler:
+    On Error GoTo 0
+    If Err.Number = 0 Then Exit Sub
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Private Sub UserForm_Initialize()
