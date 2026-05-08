@@ -11,7 +11,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public Enum AppError
-    [_Base_Error] = -vbObjectError
+    [_Base_Error] = vbObjectError + 1024
     INVALID_VALUE
     HAS_CREATED
     NOT_CREATED
