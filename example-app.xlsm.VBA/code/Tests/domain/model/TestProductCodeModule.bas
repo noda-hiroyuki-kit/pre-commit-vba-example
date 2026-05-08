@@ -31,7 +31,7 @@ End Sub
 Private Sub TestIsValid_TooShort_ReturnsInvalid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("ABC")
     testCon.Assert.AreEqual Invalid, result.result
@@ -49,7 +49,7 @@ End Sub
 Private Sub TestIsValid_MinLength_ReturnsValid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("ABCD")
     testCon.Assert.AreEqual Valid, result.result
@@ -67,7 +67,7 @@ End Sub
 Private Sub TestIsValid_MaxLength_ReturnsValid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("ABCDEFGHIJ0123456789")
     testCon.Assert.AreEqual Valid, result.result
@@ -85,7 +85,7 @@ End Sub
 Private Sub TestIsValid_TooLong_ReturnsInvalid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("ABCDEFGHIJ01234567890")
     testCon.Assert.AreEqual Invalid, result.result
@@ -103,7 +103,7 @@ End Sub
 Private Sub TestIsValid_LowercaseChars_ReturnsInvalid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("abcd")
     testCon.Assert.AreEqual Invalid, result.result
@@ -121,7 +121,7 @@ End Sub
 Private Sub TestIsValid_SpecialChars_ReturnsInvalid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("AB-C")
     testCon.Assert.AreEqual Invalid, result.result
@@ -139,7 +139,7 @@ End Sub
 Private Sub TestIsValid_ValidValue_ReturnsValid()
     On Error GoTo TestFail
 
-    Dim sut As New ProductCode
+    Dim sut As ProductCode: Set sut = New ProductCode
     Dim result As ValidationResult
     Set result = sut.IsValid("ABCD1234")
     testCon.Assert.AreEqual Valid, result.result
