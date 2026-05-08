@@ -40,6 +40,8 @@ End Sub
 
 Private Function IForm_ShowForm(ByVal viewModel As Object) As Boolean
     Set this.Product = viewModel
+    this.cancelled = False
+    textBoxChange
     Me.Show
     IForm_ShowForm = Not this.cancelled
 End Function
