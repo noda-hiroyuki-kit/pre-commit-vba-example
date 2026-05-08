@@ -13,7 +13,7 @@ Option Explicit
 
 Private Const MIN_LENGTH As Long = 4
 Private Const MAX_LENGTH As Long = 20
-Private Const REG_PATTERN As String = "[0-9A-Z]+"
+Private Const REG_PATTERN As String = "^[0-9A-Z]+$"
 
 Private Type TProductCode
     Value As String
@@ -56,12 +56,9 @@ End Function
 Private Function isOkInCharacterType(ByVal value_ As String) As Boolean
     Dim regEx As RegExp: Set regEx = New RegExp
     With regEx
-        .Global = True
+        .Global = False
         .IgnoreCase = False
         .Pattern = REG_PATTERN
-        If Not .Test(value_) Then isOkInCharacterType = False: Exit Function
-        Dim col As MatchCollection
-        Set col = .Execute(value_)
-        isOkInCharacterType = (value_ = col.Item(0).Value)
+        isOkInCharacterType = .Test(value_)
     End With
 End Function
