@@ -36,7 +36,7 @@ For commands needing git output (branch name, status, etc.), use WScript.Shell t
 1. **Open workbook in Excel** (macro-enabled: .xlsm, .xlsb, .xlam, .xls)
 2. **Access VBE**: Press `Alt+F11`
 3. **Edit modules only in VBE**, never directly in `.xls?.VBA/` folder
-4. **Save workbook**: `Ctrl+S`
+4. **Save workbook**: Use VBA Immediate Window `Excel.Application.DisplayAlerts = False: ThisWorkbook.Save: Excel.Application.DisplayAlerts = True`
 5. **Stage changes**: `git add .`
 6. **Pre-commit hook**: Automatically extracts/updates `<workbook>.xls?.VBA/` folder
 7. **Stage changes**: `git add .`
