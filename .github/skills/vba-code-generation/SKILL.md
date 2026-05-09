@@ -62,6 +62,6 @@ Use VBA Immediate Window (Ctrl+G in VBE) to validate:
 
 ## References
 
-- [5 Lines Code Principle](https://www.freecodecamp.org/news/the-5-lines-code-principle/)
-- [Semantic Versioning](https://semver.org/)
-- [VBScript.RegExp](https://docs.microsoft.com/en-us/previous-versions/t0aew7h6)
+- [5 Lines Code Principle](https://dev.to/kanani_nirav/the-five-lines-of-code-principle-why-less-is-more-in-programming-31j6)
+- [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+- [RegExp](https://devblogs.microsoft.com/microsoft365dev/how-to-prepare-vba-projects-for-vbscript-deprecation/)
