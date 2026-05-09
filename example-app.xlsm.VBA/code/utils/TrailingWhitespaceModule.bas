@@ -38,13 +38,13 @@ End Function
 Private Function JoinCleanedLines(ByRef lines() As String) As String
     Dim i As Long, result As String
     For i = LBound(lines) To UBound(lines)
-        result = result & IIf(i > LBound(lines), vbNewLine, "") & RemoveLineTrailingWhitespace(lines(i))
+        result = result & IIf(i > LBound(lines), vbNewLine, vbNullString) & RemoveLineTrailingWhitespace(lines(i))
     Next i
     JoinCleanedLines = result
 End Function
 
 Private Function RemoveLineTrailingWhitespace(ByVal line As String) As String
-    RemoveLineTrailingWhitespace = RegexReplace(line, "\s+$", "")
+    RemoveLineTrailingWhitespace = RegexReplace(line, "\s+$", vbNullString)
 End Function
 
 Private Function RegexReplace(ByVal inputText As String, ByVal Pattern As String, ByVal replacement As String) As String
