@@ -63,7 +63,7 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
     Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
     testCon.Fakes.MsgBox.Returns vbOK
     testCon.Fakes.InputBox.Returns "1.0.0"
-    ThisAppModule.setVersion
+    VersionInfoModule.setVersion
     'Act:
     ThisAppModule.showVersion
     'Assert:
@@ -90,7 +90,7 @@ Private Sub TestSetVersionUpdatesDocumentVersion()
     Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
     testCon.Fakes.InputBox.Returns "2.0.0"
     'Act:
-    ThisAppModule.setVersion
+    VersionInfoModule.setVersion
     'Assert:
     testCon.Assert.AreEqual "2.0.0", _
         ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
@@ -111,11 +111,11 @@ Private Sub TestSetVersionDoesNothingWhenInputIsEmpty()
 
     'Arrange:
     Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
-    testCon.Fakes.InputBox.Returns ""
+    testCon.Fakes.InputBox.Returns vbNullString
     Dim versionBefore As String
     versionBefore = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
     'Act:
-    ThisAppModule.setVersion
+    VersionInfoModule.setVersion
     'Assert:
     testCon.Assert.AreEqual versionBefore, _
         ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
