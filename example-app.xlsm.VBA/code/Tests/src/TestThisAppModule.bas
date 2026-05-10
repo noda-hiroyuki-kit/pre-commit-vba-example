@@ -61,15 +61,16 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
 
     'Arrange:
     Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
+    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = "v0.9.0"
     testCon.Fakes.MsgBox.Returns vbOK
-    testCon.Fakes.InputBox.Returns "1.0.0"
+    testCon.Fakes.InputBox.Returns "v1.0.0"
     VersionInfoModule.setVersion
     'Act:
     ThisAppModule.showVersion
     'Assert:
     With testCon.Fakes.MsgBox.Verify
         .Parameter testCon.Fakes.Params.MsgBox.Prompt, _
-            "example-app" & vbNewLine & "1.0.0"
+            "example-app" & vbNewLine & "v1.0.0"
     End With
 
 TestExit:
@@ -88,11 +89,12 @@ Private Sub TestSetVersionUpdatesDocumentVersion()
 
     'Arrange:
     Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
-    testCon.Fakes.InputBox.Returns "2.0.0"
+    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = "v1.9.9"
+    testCon.Fakes.InputBox.Returns "v2.0.0"
     'Act:
     VersionInfoModule.setVersion
     'Assert:
-    testCon.Assert.AreEqual "2.0.0", _
+    testCon.Assert.AreEqual "v2.0.0", _
         ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
 
 TestExit:
@@ -117,6 +119,37 @@ Private Sub TestSetVersionDoesNothingWhenInputIsEmpty()
     'Act:
     VersionInfoModule.setVersion
     'Assert:
+    testCon.Assert.AreEqual versionBefore, _
+        ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = backup
+    Exit Sub
+TestFail:
+    testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
+
+'@TestMethod("setVersion")
+Private Sub TestSetVersionRejectsRollback()
+    On Error GoTo TestFail
+
+    'Arrange:
+    Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
+    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = "2.1.0"
+    testCon.Fakes.InputBox.Returns "2.0.9"
+    Dim versionBefore As String
+    versionBefore = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
+    'Act:
+    On Error Resume Next
+    VersionInfoModule.setVersion
+    Dim raisedNumber As Long
+    raisedNumber = Err.Number
+    On Error GoTo TestFail
+    'Assert:
+    testCon.Assert.AreEqual True, raisedNumber <> 0
     testCon.Assert.AreEqual versionBefore, _
         ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
 

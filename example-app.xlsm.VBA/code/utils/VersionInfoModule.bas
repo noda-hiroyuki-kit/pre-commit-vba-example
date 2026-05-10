@@ -44,11 +44,13 @@ End Function
 
 Private Function createTargetBranchRegex() As RegExp
     Dim regEx As RegExp: Set regEx = New RegExp
-    regEx.Pattern = "^(release|hotfix)/(v(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?)$"
+    regEx.Pattern = "^(release|hotfix)/(v(0|[1-9]\\d*)\.(0|[1-9]\\d*)\.(0|[1-9]\\d*)(?:-(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)$"
     regEx.IgnoreCase = False
     Set createTargetBranchRegex = regEx
 End Function
 
 Private Sub setDocumentVersion(ByVal version As String)
-    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = version
+    Dim manager As VersionManager
+    Set manager = New VersionManager
+    manager.ApplyToWorkbook ThisWorkbook, version
 End Sub
