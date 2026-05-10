@@ -38,6 +38,45 @@ For commands needing git output (branch name, status, etc.), use WScript.Shell t
 
 **Error Handling for Git**: Always check if git is installed and configured. If git is not available, provide a clear message indicating "Git is not installed or configured" and suggest installing git or checking the system PATH configuration.
 
+### 5. Variable Declaration Standards
+
+Follow these standards for variable declarations and type usage:
+
+- **One variable per Dim statement**: Each `Dim` statement declares exactly one variable. Avoid comma-separated declarations.
+  ```vba
+  ' Good
+  Dim vbMod As VBIDE.CodeModule
+  Dim lineNum As Long
+
+  ' Avoid
+  Dim vbMod As Object, lineNum As Long
+  ```
+
+- **Avoid Object type**: Use specific type declarations instead of `Object`. Prefer concrete types like `VBIDE.CodeModule`, `Worksheet`, `Range`, etc.
+  ```vba
+  ' Good
+  Dim vbMod As VBIDE.CodeModule
+
+  ' Avoid
+  Dim vbMod As Object
+  ```
+
+- **Declare variables just before use**: Place `Dim` statements immediately before the variable is first used, improving readability and reducing scope.
+  ```vba
+  ' Good
+  Set vbMod = ThisWorkbook.VBProject.VBComponents("TestController").CodeModule
+  Dim lineNum As Long
+  For lineNum = 1 To vbMod.CountOfLines
+      ' ...
+  Next lineNum
+
+  ' Avoid
+  Dim vbMod As Object
+  Dim lineNum As Long
+  ' ... other code ...
+  Set vbMod = ThisWorkbook.VBProject.VBComponents("TestController").CodeModule
+  ```
+
 ## Workflow
 
 ### VBA Code Editing
@@ -64,6 +103,9 @@ Use VBA Immediate Window (Ctrl+G in VBE) to validate:
 - [ ] All procedures follow 5-lines-code rule
 - [ ] Error handlers in place for external calls
 - [ ] Functions properly scoped (Public/Private)
+- [ ] Each `Dim` declares one variable only
+- [ ] Specific types used (no `Object` type)
+- [ ] Variables declared just before use
 - [ ] Regex patterns validated and escaped correctly
 - [ ] Pre-commit extraction verified: `uv run pre-commit`
 - [ ] Staged diff reviewed: `git diff --cached`
