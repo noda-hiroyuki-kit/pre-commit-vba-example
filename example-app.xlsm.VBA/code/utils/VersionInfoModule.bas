@@ -8,7 +8,7 @@ Public Sub setVersion(Optional ByVal manager As VersionManager = Nothing)
     response = InputBox("Input Version")
     If Len(response) = 0 Then Exit Sub
     If manager Is Nothing Then Set manager = New VersionManager
-    manager.setDocumentVersion response
+    manager.setVersion response
 End Sub
 
 '@EntryPoint

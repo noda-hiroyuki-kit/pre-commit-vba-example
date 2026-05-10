@@ -76,28 +76,28 @@ Private Function getVersionUnderTest() As String
     getVersionUnderTest = this.nextVersion
 End Function
 
-Public Sub setDocumentVersion(ByVal Version As String)
+Public Sub setVersion(ByVal Version As String)
     checkCreated
-    Me.ApplyToWorkbook this.targetBook, Version
+    ApplyToWorkbook Version
 End Sub
 
 Public Sub setVersionFromBranchIfReleaseOrHotfix()
     checkCreated
     Dim Version As String: Version = getVersionFromCurrentBranch()
     If Len(Version) = 0 Then Exit Sub
-    Me.setDocumentVersion Version
+    Me.setVersion Version
 End Sub
 
-Public Sub ApplyToWorkbook(ByVal targetWorkbook As Workbook, ByVal nextVersion As String)
+Private Sub ApplyToWorkbook(ByVal nextVersion As String)
     checkCreated
     ensureSemVer nextVersion, "next"
     If Len(Trim$(this.currentVersion)) > 0 Then
         ensureNoRollback nextVersion
     End If
-    setVersion nextVersion
+    setVersion_ nextVersion
 End Sub
 
-Private Sub setVersion(ByVal nextVersion As String)
+Private Sub setVersion_(ByVal nextVersion As String)
     If this.isSystemUnderTest Then this.nextVersion = nextVersion: Exit Sub
     this.bookVersion.Value = nextVersion
 End Sub
