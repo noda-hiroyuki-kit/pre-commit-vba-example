@@ -14,6 +14,13 @@ Public Sub setDocumentVersion(ByVal version As String)
     Me.ApplyToWorkbook ThisWorkbook, version
 End Sub
 
+Public Sub setVersionFromBranchIfReleaseOrHotfix()
+    Dim version As String: version = getVersionFromCurrentBranch()
+    If Len(version) = 0 Then Exit Sub
+    Me.setDocumentVersion version
+End Sub
+
+
 Public Sub ApplyToWorkbook(ByVal targetWorkbook As Workbook, ByVal nextVersion As String)
     Dim currentVersion As String
     currentVersion = CStr(targetWorkbook.BuiltinDocumentProperties.Item("Document Version").Value)
@@ -121,6 +128,39 @@ Private Function compareIdentifier(ByVal leftText As String, ByVal rightText As 
     If Not leftNum And rightNum Then compareIdentifier = 1: Exit Function
     compareIdentifier = Sgn(StrComp(leftText, rightText, vbBinaryCompare))
 End Function
+
+Private Function getVersionFromCurrentBranch() As String
+    getVersionFromCurrentBranch = extractVersionFromBranchName(getCurrentBranchName())
+End Function
+
+Private Function getCurrentBranchName() As String
+    On Error GoTo ErrorHandler
+
+    getCurrentBranchName = readStdOut("git rev-parse --abbrev-ref HEAD")
+    Exit Function
+
+ErrorHandler:
+    getCurrentBranchName = vbNullString
+End Function
+
+Private Function readStdOut(ByVal commandText As String) As String
+    Dim shell As WshShell: Set shell = New WshShell
+    readStdOut = Trim$(shell.Exec(commandText).StdOut.ReadAll)
+End Function
+
+Private Function extractVersionFromBranchName(ByVal branchName As String) As String
+    Dim regEx As RegExp: Set regEx = createTargetBranchRegex()
+    If Not regEx.Test(branchName) Then Exit Function
+    extractVersionFromBranchName = regEx.Execute(branchName).Item(0).SubMatches.Item(1)
+End Function
+
+Private Function createTargetBranchRegex() As RegExp
+    Dim regEx As RegExp: Set regEx = New RegExp
+    regEx.Pattern = "^(release|hotfix)/(v(0|[1-9]\\d*)\.(0|[1-9]\\d*)\.(0|[1-9]\\d*)(?:-(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)$"
+    regEx.IgnoreCase = False
+    Set createTargetBranchRegex = regEx
+End Function
+
 
 Private Function isNumericIdentifier(ByVal valueText As String) As Boolean
     Dim regEx As RegExp
