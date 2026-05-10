@@ -10,26 +10,96 @@ Attribute VB_Exposed = False
 '@Folder "domain"
 Option Explicit
 
-Public Sub setDocumentVersion(ByVal version As String)
-    Me.ApplyToWorkbook ThisWorkbook, version
+Private Type TVersionManager
+    currentVersion As String
+    nextVersion As String
+    targetBook As Workbook
+    bookVersion As Object
+    Created As Boolean
+    isSystemUnderTest As Boolean
+End Type
+
+Private this As TVersionManager
+
+Private Sub Class_Initialize()
+    this.currentVersion = vbNullString
+    this.nextVersion = vbNullString
+    this.Created = False
+End Sub
+
+Public Sub CreateForTest(ByVal targetBook As Workbook, ByVal currentVersion As String)
+    On Error GoTo ErrorHandler
+    checkNotCreated
+    Set this.targetBook = targetBook
+    this.isSystemUnderTest = True
+    ensureSemVer currentVersion, "current"
+    this.currentVersion = currentVersion
+    this.Created = True
+Exit_Sub:
+    On Error GoTo 0
+    Exit Sub
+ErrorHandler:
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile
+    Resume Exit_Sub
+End Sub
+
+Public Sub Create(ByVal targetBook As Workbook)
+    On Error GoTo ErrorHandler
+    checkNotCreated
+    Set this.targetBook = targetBook
+    Set this.bookVersion = this.targetBook.BuiltinDocumentProperties("Document Version")
+    Dim propertyVersion As String
+    propertyVersion = CStr(this.bookVersion.Value)
+    ensureSemVer propertyVersion, "current"
+    this.currentVersion = propertyVersion
+    this.Created = True
+Exit_Sub:
+    On Error GoTo 0
+    Exit Sub
+ErrorHandler:
+    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile
+    Resume Exit_Sub
+End Sub
+
+Public Property Get Version() As String
+    checkCreated
+    Version = getVersion
+End Property
+
+Private Function getVersion() As String
+    If this.isSystemUnderTest Then getVersion = getVersionUnderTest: Exit Function
+    getVersion = CStr(this.bookVersion.Value)
+End Function
+
+Private Function getVersionUnderTest() As String
+    If this.nextVersion = vbNullString Then getVersionUnderTest = this.currentVersion: Exit Function
+    getVersionUnderTest = this.nextVersion
+End Function
+
+Public Sub setDocumentVersion(ByVal Version As String)
+    checkCreated
+    Me.ApplyToWorkbook this.targetBook, Version
 End Sub
 
 Public Sub setVersionFromBranchIfReleaseOrHotfix()
-    Dim version As String: version = getVersionFromCurrentBranch()
-    If Len(version) = 0 Then Exit Sub
-    Me.setDocumentVersion version
+    checkCreated
+    Dim Version As String: Version = getVersionFromCurrentBranch()
+    If Len(Version) = 0 Then Exit Sub
+    Me.setDocumentVersion Version
 End Sub
 
-
 Public Sub ApplyToWorkbook(ByVal targetWorkbook As Workbook, ByVal nextVersion As String)
-    Dim currentVersion As String
-    currentVersion = CStr(targetWorkbook.BuiltinDocumentProperties.Item("Document Version").Value)
+    checkCreated
     ensureSemVer nextVersion, "next"
-    If Len(Trim$(currentVersion)) > 0 Then
-        ensureSemVer currentVersion, "current"
-        ensureNoRollback currentVersion, nextVersion
+    If Len(Trim$(this.currentVersion)) > 0 Then
+        ensureNoRollback nextVersion
     End If
-    targetWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = nextVersion
+    setVersion nextVersion
+End Sub
+
+Private Sub setVersion(ByVal nextVersion As String)
+    If this.isSystemUnderTest Then this.nextVersion = nextVersion: Exit Sub
+    this.bookVersion.Value = nextVersion
 End Sub
 
 Private Sub ensureSemVer(ByVal versionText As String, ByVal role As String)
@@ -37,9 +107,9 @@ Private Sub ensureSemVer(ByVal versionText As String, ByVal role As String)
     Err.Raise vbObjectError + 1100, "VersionManager", role & " version must follow SemVer: " & versionText
 End Sub
 
-Private Sub ensureNoRollback(ByVal currentVersion As String, ByVal nextVersion As String)
-    If Compare(nextVersion, currentVersion) >= 0 Then Exit Sub
-    Err.Raise vbObjectError + 1101, "VersionManager", "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion
+Private Sub ensureNoRollback(ByVal nextVersion As String)
+    If Compare(nextVersion, this.currentVersion) >= 0 Then Exit Sub
+    Err.Raise vbObjectError + 1101, "VersionManager", "Version rollback is not allowed: " & this.currentVersion & " -> " & nextVersion
 End Sub
 
 Private Function isSemVer(ByVal versionText As String) As Boolean
@@ -161,10 +231,19 @@ Private Function createTargetBranchRegex() As RegExp
     Set createTargetBranchRegex = regEx
 End Function
 
-
 Private Function isNumericIdentifier(ByVal valueText As String) As Boolean
     Dim regEx As RegExp
     Set regEx = New RegExp
     regEx.Pattern = "^(0|[1-9]\\d*)$"
     isNumericIdentifier = regEx.Test(valueText)
 End Function
+
+Private Sub checkCreated()
+    If this.Created Then Exit Sub
+    Err.Raise AppError.NOT_CREATED, "VersionManager", "VersionManager has not been created."
+End Sub
+
+Private Sub checkNotCreated()
+    If Not this.Created Then Exit Sub
+    Err.Raise AppError.HAS_CREATED, "VersionManager", "VersionManager has been created."
+End Sub

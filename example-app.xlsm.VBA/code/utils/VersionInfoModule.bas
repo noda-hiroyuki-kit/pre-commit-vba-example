@@ -3,11 +3,11 @@ Attribute VB_Name = "VersionInfoModule"
 Option Explicit
 Option Private Module
 
-Public Sub setVersion()
+Public Sub setVersion(Optional ByVal manager As VersionManager = Nothing)
     Dim response As String
     response = InputBox("Input Version")
     If Len(response) = 0 Then Exit Sub
-    Dim manager As VersionManager: Set manager = New VersionManager
+    If manager Is Nothing Then Set manager = New VersionManager
     manager.setDocumentVersion response
 End Sub
 
