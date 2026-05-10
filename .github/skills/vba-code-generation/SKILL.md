@@ -7,18 +7,25 @@ description: "Generate, refactor, and document Excel VBA code following 5-lines-
 
 Use this skill when generating, refactoring, or extending VBA code in Excel macro-enabled workbooks (.xlsm, .xlsb, .xlam).
 
+> **Note**: This skill requires macro-enabled workbooks. For non-macro-enabled files (.xlsx, .xls), convert to .xlsm first or ensure the VBE is accessible. If VBE is inaccessible, check security settings: File > Options > Trust Center > Trust Center Settings > Macro Settings. If VBE remains inaccessible despite adjusting security settings, provide a detailed error message and consult IT support or check for Group Policy restrictions.
+
 ## Core Principles
+
+Decision rule for conflicts: if the 5-lines-code rule conflicts with safe error handling or required behavior, keep safe error handling and required behavior first, then refactor into helper procedures to restore the 5-lines-code rule.
+
 
 ### 1. 5 Lines Code Rule
 
-Each function/procedure should not exceed ~5 lines of executable code (excluding declarations).
+Each function/procedure should target 5 lines of executable code, excluding declarations; when unavoidable for safe error handling or required behavior, exceed temporarily and then refactor into helper procedures.
+
+**Definition of executable code**: Counts all code statements that perform actions (assignments, method calls, control flow, inline error-handling statements, and each statement in multi-statement one-liners separated by :). Excludes: comments, blank lines, variable/constant declarations, and function/procedure signatures.
 
 Benefit: Improved readability, testability, and maintainability.
 
 
 ### 2. Error Handling
 
-Always implement error handling for functions that interact with external systems (WScript.Shell, file I/O).
+Always implement error handling for functions interacting with WScript.Shell, file I/O, databases, external APIs, or other external dependencies.
 
 
 ### 3. Semantic Versioning Integration
@@ -28,6 +35,8 @@ When working with git branch names matching `release/v*` or `hotfix/v*`, extract
 ### 4. Git Integration
 
 For commands needing git output (branch name, status, etc.), use WScript.Shell to execute and capture output.
+
+**Error Handling for Git**: Always check if git is installed and configured. If git is not available, provide a clear message indicating "Git is not installed or configured" and suggest installing git or checking the system PATH configuration.
 
 ## Workflow
 
