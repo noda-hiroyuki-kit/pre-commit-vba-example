@@ -7,14 +7,16 @@ Public Sub setVersion()
     Dim response As String
     response = InputBox("Input Version")
     If Len(response) = 0 Then Exit Sub
-    setDocumentVersion response
+    Dim manager As VersionManager: Set manager = New VersionManager
+    manager.setDocumentVersion response
 End Sub
 
 '@EntryPoint
 Public Sub setVersionFromBranchIfReleaseOrHotfix()
     Dim version As String: version = getVersionFromCurrentBranch()
     If Len(version) = 0 Then Exit Sub
-    setDocumentVersion version
+    Dim manager As VersionManager: Set manager = New VersionManager
+    manager.setDocumentVersion version
 End Sub
 
 Private Function getVersionFromCurrentBranch() As String
@@ -48,9 +50,3 @@ Private Function createTargetBranchRegex() As RegExp
     regEx.IgnoreCase = False
     Set createTargetBranchRegex = regEx
 End Function
-
-Private Sub setDocumentVersion(ByVal version As String)
-    Dim manager As VersionManager
-    Set manager = New VersionManager
-    manager.ApplyToWorkbook ThisWorkbook, version
-End Sub

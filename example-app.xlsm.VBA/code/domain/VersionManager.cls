@@ -10,6 +10,10 @@ Attribute VB_Exposed = False
 '@Folder "domain"
 Option Explicit
 
+Public Sub setDocumentVersion(ByVal version As String)
+    Me.ApplyToWorkbook ThisWorkbook, version
+End Sub
+
 Public Sub ApplyToWorkbook(ByVal targetWorkbook As Workbook, ByVal nextVersion As String)
     Dim currentVersion As String
     currentVersion = CStr(targetWorkbook.BuiltinDocumentProperties.Item("Document Version").Value)
