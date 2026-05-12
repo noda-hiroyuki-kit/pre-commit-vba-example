@@ -61,7 +61,7 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
 
     'Arrange:
     Dim sut As VersionManager: Set sut = New VersionManager
-    sut.CreateForTest ThisWorkbook, "v0.9.0"
+    sut.CreateForTest "v0.9.0"
     testCon.Fakes.MsgBox.Returns vbOK
     testCon.Fakes.InputBox.Returns "v1.0.0"
     VersionInfoModule.setVersion sut
@@ -88,9 +88,8 @@ Private Sub TestSetVersionUpdatesDocumentVersion()
     On Error GoTo TestFail
 
     'Arrange:
-'    Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
     Dim sut As VersionManager: Set sut = New VersionManager
-    sut.CreateForTest ThisWorkbook, "v1.9.9"
+    sut.CreateForTest "v1.9.9"
     testCon.Fakes.InputBox.Returns "v2.0.0"
     'Act:
     VersionInfoModule.setVersion sut
@@ -100,7 +99,6 @@ Private Sub TestSetVersionUpdatesDocumentVersion()
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-'    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = backup
     Exit Sub
 TestFail:
     testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
@@ -112,9 +110,8 @@ Private Sub TestSetVersionDoesNothingWhenInputIsEmpty()
     On Error GoTo TestFail
 
     'Arrange:
-'    Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
     Dim sut As VersionManager: Set sut = New VersionManager
-    sut.CreateForTest ThisWorkbook, "v3.0.0"
+    sut.CreateForTest "v3.0.0"
     testCon.Fakes.InputBox.Returns vbNullString
     Dim versionBefore As String: versionBefore = sut.Version
     'Act:
@@ -125,7 +122,6 @@ Private Sub TestSetVersionDoesNothingWhenInputIsEmpty()
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-'    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = backup
     Exit Sub
 TestFail:
     testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
@@ -137,11 +133,11 @@ Private Sub TestSetVersionRejectsRollback()
     On Error GoTo TestFail
 
     'Arrange:
-    Dim backup As String: backup = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
-    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = "2.1.0"
+    Dim sut As VersionManager: Set sut = New VersionManager
+    sut.CreateForTest "2.1.0"
     testCon.Fakes.InputBox.Returns "2.0.9"
     Dim versionBefore As String
-    versionBefore = ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
+    versionBefore = sut.Version
     'Act:
     On Error Resume Next
     VersionInfoModule.setVersion
@@ -150,13 +146,11 @@ Private Sub TestSetVersionRejectsRollback()
     On Error GoTo TestFail
     'Assert:
     testCon.Assert.AreEqual True, raisedNumber <> 0
-    testCon.Assert.AreEqual versionBefore, _
-        ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value
+    testCon.Assert.AreEqual versionBefore, "2.1.0"
 
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = backup
     Exit Sub
 TestFail:
     testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
