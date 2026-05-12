@@ -42,12 +42,21 @@ Private Function isSemVer(ByVal versionText As String) As Boolean
 End Function
 
 Private Function Compare(ByVal leftVersion As String, ByVal rightVersion As String) As ComparisonResult
+    Dim leftParts() As String
+    Dim rightParts() As String
     Dim leftCore As String
     Dim rightCore As String
     Dim leftPre As String
     Dim rightPre As String
-    splitVersion normalize(leftVersion), leftCore, leftPre
-    splitVersion normalize(rightVersion), rightCore, rightPre
+
+    leftParts = splitVersion(normalize(leftVersion))
+    leftCore = leftParts(0)
+    leftPre = leftParts(1)
+
+    rightParts = splitVersion(normalize(rightVersion))
+    rightCore = rightParts(0)
+    rightPre = rightParts(1)
+
     Compare = compareCore(leftCore, rightCore)
     If Compare <> ComparisonResult.EqualTo Then Exit Function
     Compare = comparePreRelease(leftPre, rightPre)
@@ -58,20 +67,25 @@ Private Function normalize(ByVal versionText As String) As String
     If LCase$(Left$(normalize, 1)) = "v" Then normalize = Mid$(normalize, 2)
 End Function
 
-Private Sub splitVersion(ByVal versionText As String, ByRef core As String, ByRef pre As String)
+Private Function splitVersion(ByVal versionText As String) As String()
+    Dim result(0 To 1) As String
     Dim plusPos As Long
+    Dim dashPos As Long
+
     plusPos = InStr(versionText, "+")
     If plusPos > 0 Then versionText = Left$(versionText, plusPos - 1)
-    Dim dashPos As Long
+
     dashPos = InStr(versionText, "-")
     If dashPos = 0 Then
-        core = versionText
-        pre = vbNullString
-        Exit Sub
+        result(0) = versionText
+        result(1) = vbNullString
+    Else
+        result(0) = Left$(versionText, dashPos - 1)
+        result(1) = Mid$(versionText, dashPos + 1)
     End If
-    core = Left$(versionText, dashPos - 1)
-    pre = Mid$(versionText, dashPos + 1)
-End Sub
+
+    splitVersion = result
+End Function
 
 Private Function compareCore(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
     Dim leftParts() As String
