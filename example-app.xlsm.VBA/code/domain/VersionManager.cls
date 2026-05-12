@@ -134,13 +134,6 @@ Private Function createTargetBranchRegex() As RegExp
     Set createTargetBranchRegex = regEx
 End Function
 
-Private Function isNumericIdentifier(ByVal valueText As String) As Boolean
-    Dim regEx As RegExp
-    Set regEx = New RegExp
-    regEx.Pattern = "^(0|[1-9]\\d*)$"
-    isNumericIdentifier = regEx.Test(valueText)
-End Function
-
 Private Sub checkCreated()
     If this.Created Then Exit Sub
     Err.Raise AppError.NOT_CREATED, "VersionManager", "VersionManager has not been created."

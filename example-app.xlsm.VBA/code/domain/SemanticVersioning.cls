@@ -114,3 +114,10 @@ Private Function compareIdentifier(ByVal leftText As String, ByVal rightText As 
     If Not leftNum And rightNum Then compareIdentifier = 1: Exit Function
     compareIdentifier = Sgn(StrComp(leftText, rightText, vbBinaryCompare))
 End Function
+
+Private Function isNumericIdentifier(ByVal valueText As String) As Boolean
+    Dim regEx As RegExp
+    Set regEx = New RegExp
+    regEx.Pattern = "^(0|[1-9]\d*)$"
+    isNumericIdentifier = regEx.Test(valueText)
+End Function
