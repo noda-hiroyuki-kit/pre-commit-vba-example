@@ -1,6 +1,6 @@
 Attribute VB_Name = "TestSemanticVersioningModule"
 '@TestModule
-'@Folder "Tests.domain.model"
+'@Folder "Tests.utils"
 
 Option Explicit
 Option Private Module
@@ -306,7 +306,7 @@ Private Sub AssertEnsureSemVerRejects(ByVal versionText As String)
     Dim raisedDescription As String
     raisedDescription = Err.Description
     On Error GoTo 0
-    testCon.Assert.AreEqual vbObjectError + 1100, raisedNumber
+    testCon.Assert.AreEqual AppError.INVALID_SEMVER, raisedNumber
     testCon.Assert.AreEqual "current version must follow SemVer: " & versionText, raisedDescription
 End Sub
 
@@ -334,6 +334,6 @@ Private Sub AssertEnsureNoRollbackRejects(ByVal currentVersion As String, ByVal 
     Dim raisedDescription As String
     raisedDescription = Err.Description
     On Error GoTo 0
-    testCon.Assert.AreEqual vbObjectError + 1101, raisedNumber
+    testCon.Assert.AreEqual AppError.VERSION_ROLLBACK_NOT_ALLOWED, raisedNumber
     testCon.Assert.AreEqual "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion, raisedDescription
 End Sub

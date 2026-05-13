@@ -7,7 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-'@Folder("domain")
+'@Folder "utils"
 Option Explicit
 
 Private Enum ComparisonResult
@@ -18,12 +18,12 @@ End Enum
 
 Public Sub ensureSemVer(ByVal versionText As String, ByVal role As String)
     If isSemVer(StripVersionPrefix(versionText)) Then Exit Sub
-    Err.Raise vbObjectError + 1100, "SemanticVersioning", role & " version must follow SemVer: " & versionText
+    Err.Raise AppError.INVALID_SEMVER, "SemanticVersioning", role & " version must follow SemVer: " & versionText
 End Sub
 
 Public Sub ensureNoRollback(ByVal currentVersion As String, ByVal nextVersion As String)
     If Compare(StripVersionPrefix(nextVersion), StripVersionPrefix(currentVersion)) >= ComparisonResult.EqualTo Then Exit Sub
-    Err.Raise vbObjectError + 1101, "SemanticVersioning", "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion
+    Err.Raise AppError.VERSION_ROLLBACK_NOT_ALLOWED, "SemanticVersioning", "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion
 End Sub
 
 Private Function StripVersionPrefix(ByVal versionText As String) As String

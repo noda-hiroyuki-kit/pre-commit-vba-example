@@ -7,7 +7,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
-'@Folder "domain"
+'@Folder "utils"
 Option Explicit
 
 Private Type TVersionManager
@@ -81,15 +81,7 @@ Public Sub setVersion(ByVal Version As String)
     ApplyToWorkbook Version
 End Sub
 
-Public Sub setVersionFromBranchIfReleaseOrHotfix()
-    checkCreated
-    Dim Version As String: Version = getVersionFromCurrentBranch()
-    If Len(Version) = 0 Then Exit Sub
-    Me.setVersion Version
-End Sub
-
 Private Sub ApplyToWorkbook(ByVal nextVersion As String)
-    checkCreated
     this.semVer.ensureSemVer nextVersion, "next"
     If Len(Trim$(this.currentVersion)) > 0 Then
         this.semVer.ensureNoRollback this.currentVersion, nextVersion
@@ -101,38 +93,6 @@ Private Sub setVersion_(ByVal nextVersion As String)
     If this.isSystemUnderTest Then this.nextVersion = nextVersion: Exit Sub
     this.bookVersion.Value = nextVersion
 End Sub
-
-Private Function getVersionFromCurrentBranch() As String
-    getVersionFromCurrentBranch = extractVersionFromBranchName(getCurrentBranchName())
-End Function
-
-Private Function getCurrentBranchName() As String
-    On Error GoTo ErrorHandler
-
-    getCurrentBranchName = readStdOut("git rev-parse --abbrev-ref HEAD")
-    Exit Function
-
-ErrorHandler:
-    getCurrentBranchName = vbNullString
-End Function
-
-Private Function readStdOut(ByVal commandText As String) As String
-    Dim shell As WshShell: Set shell = New WshShell
-    readStdOut = Trim$(shell.Exec(commandText).StdOut.ReadAll)
-End Function
-
-Private Function extractVersionFromBranchName(ByVal branchName As String) As String
-    Dim regEx As RegExp: Set regEx = createTargetBranchRegex()
-    If Not regEx.Test(branchName) Then Exit Function
-    extractVersionFromBranchName = regEx.Execute(branchName).Item(0).SubMatches.Item(1)
-End Function
-
-Private Function createTargetBranchRegex() As RegExp
-    Dim regEx As RegExp: Set regEx = New RegExp
-    regEx.Pattern = "^(release|hotfix)/(v(0|[1-9]\\d*)\.(0|[1-9]\\d*)\.(0|[1-9]\\d*)(?:-(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)$"
-    regEx.IgnoreCase = False
-    Set createTargetBranchRegex = regEx
-End Function
 
 Private Sub checkCreated()
     If this.Created Then Exit Sub
