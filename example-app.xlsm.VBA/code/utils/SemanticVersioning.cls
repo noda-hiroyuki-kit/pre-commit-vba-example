@@ -88,13 +88,12 @@ Private Function splitVersion(ByVal versionText As String) As String()
 End Function
 
 Private Function compareCore(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
-    Dim leftParts() As String
-    Dim rightParts() As String
+    Dim leftParts() As String:  leftParts = Split(leftText, ".")
+    Dim rightParts() As String: rightParts = Split(rightText, ".")
+
     Dim i As Long
-    leftParts = Split(leftText, ".")
-    rightParts = Split(rightText, ".")
     For i = 0 To 2
-        If CLng(leftParts(i)) < CLng(rightParts(i)) Then compareCore = ComparisonResult.LessThan: Exit Function
+        If CLng(leftParts(i)) < CLng(rightParts(i)) Then compareCore = ComparisonResult.LessThan:    Exit Function
         If CLng(leftParts(i)) > CLng(rightParts(i)) Then compareCore = ComparisonResult.GreaterThan: Exit Function
     Next i
 End Function
@@ -107,16 +106,13 @@ Private Function comparePreRelease(ByVal leftText As String, ByVal rightText As 
 End Function
 
 Private Function compareIdentifiers(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
-    Dim leftParts() As String
-    Dim rightParts() As String
-    leftParts = Split(leftText, ".")
-    rightParts = Split(rightText, ".")
-    Dim maxIndex As Long
-    maxIndex = UBound(leftParts)
+    Dim leftParts() As String:  leftParts = Split(leftText, ".")
+    Dim rightParts() As String: rightParts = Split(rightText, ".")
+    Dim maxIndex As Long:       maxIndex = UBound(leftParts)
     If UBound(rightParts) > maxIndex Then maxIndex = UBound(rightParts)
     Dim i As Long
     For i = 0 To maxIndex
-        If i > UBound(leftParts) Then compareIdentifiers = ComparisonResult.LessThan: Exit Function
+        If i > UBound(leftParts) Then compareIdentifiers = ComparisonResult.LessThan:     Exit Function
         If i > UBound(rightParts) Then compareIdentifiers = ComparisonResult.GreaterThan: Exit Function
         Dim c As ComparisonResult
         c = compareIdentifier(leftParts(i), rightParts(i))
@@ -125,10 +121,8 @@ Private Function compareIdentifiers(ByVal leftText As String, ByVal rightText As
 End Function
 
 Private Function compareIdentifier(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
-    Dim leftNum As Boolean
-    Dim rightNum As Boolean
-    leftNum = isNumericIdentifier(leftText)
-    rightNum = isNumericIdentifier(rightText)
+    Dim leftNum As Boolean:  leftNum = isNumericIdentifier(leftText)
+    Dim rightNum As Boolean: rightNum = isNumericIdentifier(rightText)
     If leftNum And rightNum Then compareIdentifier = Sgn(CLng(leftText) - CLng(rightText)): Exit Function
     If leftNum And Not rightNum Then compareIdentifier = ComparisonResult.LessThan: Exit Function
     If Not leftNum And rightNum Then compareIdentifier = ComparisonResult.GreaterThan: Exit Function

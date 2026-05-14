@@ -23,9 +23,9 @@ ErrorHandler:
     MsgBox "Error: " & Err.Description
 End Sub
 
-Private Sub SetCanRefValue(newValue As Boolean)
+Private Sub SetCanRefValue(ByVal newValue As Boolean)
     Dim vbMod As VBIDE.CodeModule
-    Set vbMod = ThisWorkbook.VBProject.VBComponents("TestController").CodeModule
+    Set vbMod = ThisWorkbook.VBProject.VBComponents.Item("TestController").CodeModule
 
     Dim lineNum As Long
     For lineNum = 1 To vbMod.CountOfLines
@@ -36,6 +36,6 @@ continue:
     Next lineNum
 End Sub
 
-Private Function CreateNewCanRefLine(newValue As Boolean) As String
+Private Function CreateNewCanRefLine(ByVal newValue As Boolean) As String
     CreateNewCanRefLine = "#Const canRef = " & Format$(newValue, "True/False")
 End Function

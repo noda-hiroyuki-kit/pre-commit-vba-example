@@ -17,8 +17,9 @@ Private Sub ProcessEachModule(ByVal vbProj As VBProject)
 End Sub
 
 Private Sub CleanModuleCode(ByRef component As VBComponent)
-    Dim originalCode As String, cleanedCode As String
+    Dim originalCode As String
     originalCode = component.CodeModule.lines(1, component.CodeModule.CountOfLines)
+    Dim cleanedCode As String
     cleanedCode = RemoveTrailingWhitespaceFromText(originalCode)
     If originalCode <> cleanedCode Then
         ReplaceModuleCode component, cleanedCode
@@ -36,8 +37,9 @@ Private Function RemoveTrailingWhitespaceFromText(ByVal Text As String) As Strin
 End Function
 
 Private Function JoinCleanedLines(ByRef lines() As String) As String
-    Dim i As Long, result As String
+    Dim i As Long
     For i = LBound(lines) To UBound(lines)
+        Dim result As String
         result = result & IIf(i > LBound(lines), vbNewLine, vbNullString) & RemoveLineTrailingWhitespace(lines(i))
     Next i
     JoinCleanedLines = result
