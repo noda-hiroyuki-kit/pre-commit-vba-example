@@ -13,7 +13,6 @@ Option Explicit
 Private Type TVersionManager
     currentVersion As String
     nextVersion As String
-    targetBook As Workbook
     bookVersion As Object
     semVer As SemanticVersioning
     Created As Boolean
@@ -47,7 +46,7 @@ End Sub
 Public Sub Create(ByVal targetBook As Workbook)
     On Error GoTo ErrorHandler
     checkNotCreated
-    Set this.bookVersion = targetBook.BuiltinDocumentProperties("Document Version")
+    Set this.bookVersion = targetBook.BuiltinDocumentProperties.Item("Document Version")
     Dim propertyVersion As String
     propertyVersion = CStr(this.bookVersion.Value)
     this.semVer.ensureSemVer propertyVersion, "current"

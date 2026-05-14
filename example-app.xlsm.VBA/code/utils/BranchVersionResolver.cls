@@ -19,7 +19,7 @@ End Type
 Private this As TClass
 
 Public Sub Create(ByVal manager As VersionManager)
-    Set this.manager = New VersionManager
+    Set this.manager = manager
     this.isSystemUnderTest = False
 End Sub
 
@@ -53,14 +53,12 @@ Private Function readStdOut(ByVal commandText As String) As String
     If this.isSystemUnderTest Then readStdOut = this.branchName: Exit Function
     Dim shell As WshShell: Set shell = New WshShell
     shell.CurrentDirectory = ThisWorkbook.path
-    Debug.Print shell.CurrentDirectory
     readStdOut = Trim$(shell.Exec(commandText).StdOut.ReadAll)
 End Function
 
 Private Function extractVersionFromBranchName(ByVal branchName As String) As String
     Dim regEx As RegExp: Set regEx = createTargetBranchRegex()
     If Not regEx.Test(branchName) Then Exit Function
-    Dim a As Object: Set a = regEx.Execute(branchName)
     extractVersionFromBranchName = regEx.Execute(branchName).Item(0).SubMatches.Item(1)
 End Function
 

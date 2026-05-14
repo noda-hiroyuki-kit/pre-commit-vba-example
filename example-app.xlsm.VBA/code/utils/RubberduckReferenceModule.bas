@@ -87,10 +87,6 @@ Private Function getTypeLibKey(ByVal platform As String) As String
     getTypeLibKey = "HKEY_LOCAL_MACHINE\Software\Classes\TypeLib\" & RUBBERDUCK_TYPELIB_GUID & "\" & RUBBERDUCK_TYPELIB_VERSION & "\" & platform & "\"
 End Function
 
-Private Sub showAlreadyAddedMessage()
-    MsgBox "Rubberduck reference is already added.", vbOKOnly + vbInformation
-End Sub
-
 Private Sub showAddedMessage()
     MsgBox "Rubberduck reference added successfully.", vbOKOnly + vbInformation
 End Sub
