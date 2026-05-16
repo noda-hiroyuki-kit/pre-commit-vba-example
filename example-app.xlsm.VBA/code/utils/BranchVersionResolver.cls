@@ -49,13 +49,19 @@ Private Function getVersionFromCurrentBranch() As String
     getVersionFromCurrentBranch = extractVersionFromBranchName(getCurrentBranchName())
 End Function
 
+Private Sub logBranchNameResolutionError(ByVal commandText As String, ByVal errorNumber As Long, ByVal errorDescription As String)
+    Debug.Print "BranchVersionResolver.getCurrentBranchName failed. Command=""" & commandText & """ Error " & CStr(errorNumber) & ": " & errorDescription
+End Sub
+
 Private Function getCurrentBranchName() As String
     On Error GoTo ErrorHandler
 
-    getCurrentBranchName = readStdOut("git rev-parse --abbrev-ref HEAD")
+    Dim commandText As String: commandText = "git rev-parse --abbrev-ref HEAD"
+    getCurrentBranchName = readStdOut(commandText)
     Exit Function
 
 ErrorHandler:
+    logBranchNameResolutionError commandText, Err.Number, Err.Description
     getCurrentBranchName = vbNullString
 End Function
 
