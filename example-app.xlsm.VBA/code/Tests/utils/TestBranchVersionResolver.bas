@@ -33,7 +33,7 @@ Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseUpgrade_UpdatesVers
     sut.CreateForTest "v0.0.1"
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
     resolver.CreateForTest sut, "release/v0.1.0"
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
     testCon.Assert.AreEqual "v0.1.0", sut.Version
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
@@ -51,7 +51,7 @@ Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_FeatureBranch_NoChange()
     sut.CreateForTest "v0.0.1"
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
     resolver.CreateForTest sut, "feature/test"
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
     testCon.Assert.AreEqual "v0.0.1", sut.Version
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
@@ -69,7 +69,7 @@ Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_HotfixUpgrade_UpdatesVersi
     sut.CreateForTest "v1.0.0"
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
     resolver.CreateForTest sut, "hotfix/v1.0.1"
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
     testCon.Assert.AreEqual "v1.0.1", sut.Version
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
@@ -87,7 +87,7 @@ Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseSameVersion_NoChang
     sut.CreateForTest "v0.1.0"
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
     resolver.CreateForTest sut, "release/v0.1.0"
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
     testCon.Assert.AreEqual "v0.1.0", sut.Version
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
@@ -105,7 +105,7 @@ Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseLowerVersion_NoChan
     sut.CreateForTest "v0.1.0"
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
     resolver.CreateForTest sut, "release/v0.0.9"
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
 Assert:
     testCon.Assert.Fail "Expected error was not raised"
 TestExit:

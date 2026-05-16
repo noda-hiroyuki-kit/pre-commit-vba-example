@@ -38,7 +38,7 @@ Public Sub CreateForTest(ByVal manager As VersionManager, ByVal branchName As St
     this.Created = True
 End Sub
 
-Public Sub setVersionFromBranchIfReleaseOrHotfix()
+Public Sub SetVersionFromBranchIfReleaseOrHotfix()
     checkCreated
     Dim Version As String: Version = getVersionFromCurrentBranch()
     If Len(Version) = 0 Then Exit Sub

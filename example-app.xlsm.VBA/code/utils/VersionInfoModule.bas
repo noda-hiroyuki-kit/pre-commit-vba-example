@@ -12,8 +12,8 @@ Public Sub SetVersion(Optional ByVal manager As VersionManager)
 End Sub
 
 '@EntryPoint
-Public Sub setVersionFromBranchIfReleaseOrHotfix()
+Public Sub SetVersionFromBranchIfReleaseOrHotfix()
     Dim manager As VersionManager: Set manager = New VersionManager: manager.Create ThisWorkbook
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver: resolver.Create manager
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
 End Sub

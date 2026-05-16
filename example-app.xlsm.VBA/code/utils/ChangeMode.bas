@@ -8,7 +8,7 @@ Public Sub PrepareRelease()
     manager.Create ThisWorkbook
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
     resolver.Create manager
-    resolver.setVersionFromBranchIfReleaseOrHotfix
+    resolver.SetVersionFromBranchIfReleaseOrHotfix
 
     SetCanRefFalse
     RemoveRubberduckReference
