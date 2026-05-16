@@ -10,13 +10,46 @@ Private Const RUBBERDUCK_TYPELIB_VERSION As String = "2.5"
 '@EntryPoint
 Public Sub AddRubberduckReference()
     On Error GoTo ErrorHandler
-    If hasRubberduckReference() Then Call TryRemoveRubberduckReference
+
+    Dim oldPath As String
+    oldPath = GetExistingRubberduckReferencePath()
+
+    If Len(oldPath) > 0 Then
+        If Not TryRemoveRubberduckReference() Then
+            Err.Raise AppError.RUBBERDUCK_REFERENCE_RESTORE_FAILED, "AddRubberduckReference", "Failed to remove existing Rubberduck reference."
+        End If
+    End If
+
     addRubberduckReferenceByArchitecture
     showAddedMessage
     Exit Sub
+
 ErrorHandler:
+    ' Roll back if we removed an existing reference and re-add failed.
+    If Len(oldPath) > 0 Then
+        Call TryRestoreRubberduckReference(oldPath)
+    End If
     showAddErrorMessage Err.Description
 End Sub
+
+Private Function GetExistingRubberduckReferencePath() As String
+    Dim ref As Reference
+    For Each ref In ThisWorkbook.VBProject.References
+        If IsRubberduckReference(ref) Then
+            GetExistingRubberduckReferencePath = ref.FullPath
+            Exit Function
+        End If
+    Next ref
+End Function
+
+Private Function TryRestoreRubberduckReference(ByVal path As String) As Boolean
+    On Error GoTo Failed
+    ThisWorkbook.VBProject.References.AddFromFile path
+    TryRestoreRubberduckReference = True
+    Exit Function
+Failed:
+    Err.Clear
+End Function
 
 '@EntryPoint
 Public Sub RemoveRubberduckReference()
