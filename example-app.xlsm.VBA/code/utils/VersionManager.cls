@@ -31,7 +31,7 @@ End Sub
 Public Sub CreateForTest(ByVal currentVersion As String)
     checkNotCreated
     this.isSystemUnderTest = True
-    this.semVer.ensureSemVer currentVersion, "current"
+    this.semVer.EnsureSemVer currentVersion, "current"
     this.currentVersion = currentVersion
     this.Created = True
 End Sub
@@ -42,7 +42,7 @@ Public Sub Create(ByVal targetBook As Workbook)
     Set this.bookVersion = targetBook.BuiltinDocumentProperties.Item("Document Version")
     Dim propertyVersion As String
     propertyVersion = CStr(this.bookVersion.Value)
-    this.semVer.ensureSemVer propertyVersion, "current"
+    this.semVer.EnsureSemVer propertyVersion, "current"
     this.currentVersion = propertyVersion
     this.Created = True
 End Sub
@@ -68,9 +68,9 @@ Public Sub SetVersion(ByVal Version As String)
 End Sub
 
 Private Sub ApplyToWorkbook(ByVal nextVersion As String)
-    this.semVer.ensureSemVer nextVersion, "next"
+    this.semVer.EnsureSemVer nextVersion, "next"
     If Len(Trim$(this.currentVersion)) > 0 Then
-        this.semVer.ensureNoRollback this.currentVersion, nextVersion
+        this.semVer.EnsureNoRollback this.currentVersion, nextVersion
     End If
     setVersion_ nextVersion
 End Sub

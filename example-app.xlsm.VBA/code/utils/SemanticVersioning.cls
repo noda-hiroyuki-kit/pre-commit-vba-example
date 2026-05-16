@@ -16,12 +16,12 @@ Private Enum ComparisonResult
     GreaterThan = 1
 End Enum
 
-Public Sub ensureSemVer(ByVal versionText As String, ByVal role As String)
+Public Sub EnsureSemVer(ByVal versionText As String, ByVal role As String)
     If isSemVer(StripVersionPrefix(versionText)) Then Exit Sub
     Err.Raise AppError.INVALID_SEMVER, "SemanticVersioning", role & " version must follow SemVer: " & versionText
 End Sub
 
-Public Sub ensureNoRollback(ByVal currentVersion As String, ByVal nextVersion As String)
+Public Sub EnsureNoRollback(ByVal currentVersion As String, ByVal nextVersion As String)
     If Compare(StripVersionPrefix(nextVersion), StripVersionPrefix(currentVersion)) >= ComparisonResult.EqualTo Then Exit Sub
     Err.Raise AppError.VERSION_ROLLBACK_NOT_ALLOWED, "SemanticVersioning", "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion
 End Sub

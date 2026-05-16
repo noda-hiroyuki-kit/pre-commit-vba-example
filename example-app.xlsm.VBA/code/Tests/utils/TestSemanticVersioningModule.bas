@@ -286,7 +286,7 @@ Private Sub AssertEnsureSemVerAccepts(ByVal versionText As String)
     Dim sut As SemanticVersioning
     Set sut = New SemanticVersioning
     On Error Resume Next
-    sut.ensureSemVer versionText, "current"
+    sut.EnsureSemVer versionText, "current"
     Dim raisedNumber As Long
     raisedNumber = Err.Number
     Dim raisedDescription As String
@@ -300,7 +300,7 @@ Private Sub AssertEnsureSemVerRejects(ByVal versionText As String)
     Dim sut As SemanticVersioning
     Set sut = New SemanticVersioning
     On Error Resume Next
-    sut.ensureSemVer versionText, "current"
+    sut.EnsureSemVer versionText, "current"
     Dim raisedNumber As Long
     raisedNumber = Err.Number
     Dim raisedDescription As String
@@ -314,7 +314,7 @@ Private Sub AssertEnsureNoRollbackAccepts(ByVal currentVersion As String, ByVal 
     Dim sut As SemanticVersioning
     Set sut = New SemanticVersioning
     On Error Resume Next
-    sut.ensureNoRollback currentVersion, nextVersion
+    sut.EnsureNoRollback currentVersion, nextVersion
     Dim raisedNumber As Long
     raisedNumber = Err.Number
     Dim raisedDescription As String
@@ -328,7 +328,7 @@ Private Sub AssertEnsureNoRollbackRejects(ByVal currentVersion As String, ByVal 
     Dim sut As SemanticVersioning
     Set sut = New SemanticVersioning
     On Error Resume Next
-    sut.ensureNoRollback currentVersion, nextVersion
+    sut.EnsureNoRollback currentVersion, nextVersion
     Dim raisedNumber As Long
     raisedNumber = Err.Number
     Dim raisedDescription As String
