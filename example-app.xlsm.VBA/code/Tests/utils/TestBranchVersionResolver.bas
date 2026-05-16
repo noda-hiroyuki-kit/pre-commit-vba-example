@@ -99,7 +99,7 @@ TestFail:
 End Sub
 
 '@TestMethod("BranchVersionResolver.setVersionFromBranchIfReleaseOrHotfix")
-Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseLowerVersion_NoChange()
+Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseLowerVersion_RaisesRollback()
     On Error GoTo TestFail
     Dim sut As VersionManager: Set sut = New VersionManager
     sut.CreateForTest "v0.1.0"
