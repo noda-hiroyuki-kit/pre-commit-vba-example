@@ -57,12 +57,19 @@ Private Sub addRubberduckReferenceByArchitecture()
 End Sub
 
 Private Function TryAddRubberduckReferenceFromKnownPath() As Boolean
-    On Error GoTo Failed
+     On Error GoTo TryX32
     Dim knownPath As String
     knownPath = "C:\ProgramData\Rubberduck\Rubberduck.x64.tlb"
     ThisWorkbook.VBProject.References.AddFromFile knownPath
     TryAddRubberduckReferenceFromKnownPath = True
     Exit Function
+TryX32:
+     Err.Clear
+     On Error GoTo Failed
+     knownPath = "C:\ProgramData\Rubberduck\Rubberduck.x32.tlb"
+     ThisWorkbook.VBProject.References.AddFromFile knownPath
+     TryAddRubberduckReferenceFromKnownPath = True
+     Exit Function
 Failed:
     Err.Clear
 End Function
