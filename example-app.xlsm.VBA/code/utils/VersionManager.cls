@@ -29,22 +29,14 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Sub CreateForTest(ByVal currentVersion As String)
-    On Error GoTo ErrorHandler
     checkNotCreated
     this.isSystemUnderTest = True
     this.semVer.ensureSemVer currentVersion, "current"
     this.currentVersion = currentVersion
     this.Created = True
-Exit_Sub:
-    On Error GoTo 0
-    Exit Sub
-ErrorHandler:
-    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile
-    Resume Exit_Sub
 End Sub
 
 Public Sub Create(ByVal targetBook As Workbook)
-    On Error GoTo ErrorHandler
     checkNotCreated
     Set this.bookVersion = targetBook.BuiltinDocumentProperties.Item("Document Version")
     Dim propertyVersion As String
@@ -52,12 +44,6 @@ Public Sub Create(ByVal targetBook As Workbook)
     this.semVer.ensureSemVer propertyVersion, "current"
     this.currentVersion = propertyVersion
     this.Created = True
-Exit_Sub:
-    On Error GoTo 0
-    Exit Sub
-ErrorHandler:
-    Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile
-    Resume Exit_Sub
 End Sub
 
 Public Property Get Version() As String
