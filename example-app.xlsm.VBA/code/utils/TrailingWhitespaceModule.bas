@@ -6,7 +6,7 @@ Option Private Module
 '@EntryPoint
 Public Sub CleanAllModulesInWorkbook()
     ProcessEachModule ThisWorkbook.VBProject
-    MsgBox "すべてのモジュール内の末尾空白を削除しました。", vbInformation
+    MsgBox "Removed trailing whitespace from all modules.", vbInformation + vbSystemModal + vbOKOnly
 End Sub
 
 Private Sub ProcessEachModule(ByVal vbProj As VBProject)
