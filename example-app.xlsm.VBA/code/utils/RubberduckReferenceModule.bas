@@ -82,22 +82,25 @@ Private Sub addRubberduckReferenceByArchitecture()
     Err.Raise vbObjectError + 513, "AddRubberduckReference", "Rubberduck type library was not found in registry or known path."
 End Sub
 
-Private Function TryAddRubberduckReferenceFromKnownPath() As Boolean
-    On Error GoTo TryX32
-    Dim knownPath As String
-    knownPath = "C:\ProgramData\Rubberduck\Rubberduck.x64.tlb"
-    ThisWorkbook.VBProject.References.AddFromFile knownPath
-    TryAddRubberduckReferenceFromKnownPath = True
-    Exit Function
-TryX32:
-    Err.Clear
+Private Function TryAddRubberduckReferenceFromFile(ByVal knownPath As String) As Boolean
     On Error GoTo Failed
-    knownPath = "C:\ProgramData\Rubberduck\Rubberduck.x32.tlb"
     ThisWorkbook.VBProject.References.AddFromFile knownPath
-    TryAddRubberduckReferenceFromKnownPath = True
+    TryAddRubberduckReferenceFromFile = True
     Exit Function
 Failed:
     Err.Clear
+End Function
+
+Private Function TryAddRubberduckReferenceFromKnownPath() As Boolean
+    TryAddRubberduckReferenceFromKnownPath = False
+    If TryAddRubberduckReferenceFromFile("C:\ProgramData\Rubberduck\Rubberduck.x64.tlb") Then
+        TryAddRubberduckReferenceFromKnownPath = True
+        Exit Function
+    End If
+
+    If TryAddRubberduckReferenceFromFile("C:\ProgramData\Rubberduck\Rubberduck.x32.tlb") Then
+        TryAddRubberduckReferenceFromKnownPath = True
+    End If
 End Function
 
 Private Function TryAddRubberduckReference(ByVal platform As String) As Boolean
