@@ -37,5 +37,5 @@ continue:
 End Sub
 
 Private Function CreateNewCanRefLine(ByVal newValue As Boolean) As String
-    CreateNewCanRefLine = "#Const canRef = " & Format$(newValue, "True/False")
+    CreateNewCanRefLine = "#Const canRef = " & IIf(newValue, "True", "False")
 End Function
