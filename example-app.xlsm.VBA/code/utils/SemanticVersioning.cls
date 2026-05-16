@@ -87,14 +87,34 @@ Private Function splitVersion(ByVal versionText As String) As String()
     splitVersion = result
 End Function
 
+Private Function compareNumericIdentifier(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
+    If Len(leftText) < Len(rightText) Then
+        compareNumericIdentifier = ComparisonResult.LessThan
+        Exit Function
+    End If
+    If Len(leftText) > Len(rightText) Then
+        compareNumericIdentifier = ComparisonResult.GreaterThan
+        Exit Function
+    End If
+    If leftText < rightText Then
+        compareNumericIdentifier = ComparisonResult.LessThan
+        Exit Function
+    End If
+    If leftText > rightText Then
+        compareNumericIdentifier = ComparisonResult.GreaterThan
+        Exit Function
+    End If
+End Function
+
 Private Function compareCore(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
     Dim leftParts() As String:  leftParts = Split(leftText, ".")
     Dim rightParts() As String: rightParts = Split(rightText, ".")
 
     Dim i As Long
     For i = 0 To 2
-        If CLng(leftParts(i)) < CLng(rightParts(i)) Then compareCore = ComparisonResult.LessThan:    Exit Function
-        If CLng(leftParts(i)) > CLng(rightParts(i)) Then compareCore = ComparisonResult.GreaterThan: Exit Function
+        Dim c As ComparisonResult
+        c = compareNumericIdentifier(leftParts(i), rightParts(i))
+        If Not c = ComparisonResult.EqualTo Then compareCore = c: Exit Function
     Next i
 End Function
 
