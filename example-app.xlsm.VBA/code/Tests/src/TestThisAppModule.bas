@@ -146,7 +146,7 @@ Private Sub TestSetVersionRejectsRollback()
     On Error GoTo TestFail
     'Assert:
     testCon.Assert.AreEqual True, raisedNumber <> 0
-    testCon.Assert.AreEqual versionBefore, "2.1.0"
+    testCon.Assert.AreEqual versionBefore, sut.Version
 
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
