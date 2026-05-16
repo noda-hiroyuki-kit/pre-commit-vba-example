@@ -3,7 +3,7 @@ Attribute VB_Name = "ChangeMode"
 Option Explicit
 
 '@EntryPoint
-Public Sub prepareRelease()
+Public Sub PrepareRelease()
     Dim manager As VersionManager: Set manager = New VersionManager
     manager.Create ThisWorkbook
     Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
@@ -15,7 +15,7 @@ Public Sub prepareRelease()
 End Sub
 
 '@EntryPoint
-Public Sub changeDevelop()
+Public Sub ChangeDevelop()
     SetCanRefTrue
     AddRubberduckReference
 End Sub
