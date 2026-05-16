@@ -143,7 +143,7 @@ End Function
 Private Function compareIdentifier(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
     Dim leftNum As Boolean:  leftNum = isNumericIdentifier(leftText)
     Dim rightNum As Boolean: rightNum = isNumericIdentifier(rightText)
-    If leftNum And rightNum Then compareIdentifier = Sgn(CLng(leftText) - CLng(rightText)): Exit Function
+    If leftNum And rightNum Then compareIdentifier = compareNumericIdentifier(leftText, rightText): Exit Function
     If leftNum And Not rightNum Then compareIdentifier = ComparisonResult.LessThan: Exit Function
     If Not leftNum And rightNum Then compareIdentifier = ComparisonResult.GreaterThan: Exit Function
     compareIdentifier = Sgn(StrComp(leftText, rightText, vbBinaryCompare))
