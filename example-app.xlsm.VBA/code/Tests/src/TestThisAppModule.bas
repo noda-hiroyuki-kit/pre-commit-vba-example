@@ -64,7 +64,7 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
     sut.CreateForTest "v0.9.0"
     testCon.Fakes.MsgBox.Returns vbOK
     testCon.Fakes.InputBox.Returns "v1.0.0"
-    VersionInfoModule.setVersion sut
+    VersionInfoModule.SetVersion sut
     'Act:
     ThisAppModule.showVersion sut
     'Assert:
@@ -91,7 +91,7 @@ Private Sub TestSetVersionUpdatesDocumentVersion()
     sut.CreateForTest "v1.9.9"
     testCon.Fakes.InputBox.Returns "v2.0.0"
     'Act:
-    VersionInfoModule.setVersion sut
+    VersionInfoModule.SetVersion sut
     'Assert:
     testCon.Assert.AreEqual "v2.0.0", sut.Version
 
@@ -114,7 +114,7 @@ Private Sub TestSetVersionDoesNothingWhenInputIsEmpty()
     testCon.Fakes.InputBox.Returns vbNullString
     Dim versionBefore As String: versionBefore = sut.Version
     'Act:
-    VersionInfoModule.setVersion sut
+    VersionInfoModule.SetVersion sut
     'Assert:
     testCon.Assert.AreEqual versionBefore, sut.Version
 
@@ -139,7 +139,7 @@ Private Sub TestSetVersionRejectsRollback()
     versionBefore = sut.Version
     'Act:
     On Error Resume Next
-    VersionInfoModule.setVersion sut
+    VersionInfoModule.SetVersion sut
     Dim raisedNumber As Long
     raisedNumber = Err.Number
     On Error GoTo TestFail

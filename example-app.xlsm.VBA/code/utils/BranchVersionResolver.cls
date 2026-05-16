@@ -42,7 +42,7 @@ Public Sub setVersionFromBranchIfReleaseOrHotfix()
     checkCreated
     Dim Version As String: Version = getVersionFromCurrentBranch()
     If Len(Version) = 0 Then Exit Sub
-    this.manager.setVersion Version
+    this.manager.SetVersion Version
 End Sub
 
 Private Function getVersionFromCurrentBranch() As String

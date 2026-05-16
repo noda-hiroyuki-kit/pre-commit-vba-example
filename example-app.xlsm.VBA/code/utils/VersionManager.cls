@@ -62,7 +62,7 @@ Private Function getVersionUnderTest() As String
     getVersionUnderTest = this.nextVersion
 End Function
 
-Public Sub setVersion(ByVal Version As String)
+Public Sub SetVersion(ByVal Version As String)
     checkCreated
     ApplyToWorkbook Version
 End Sub
