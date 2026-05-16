@@ -140,7 +140,7 @@ Private Sub TestSetVersionRejectsRollback()
     versionBefore = sut.Version
     'Act:
     On Error Resume Next
-    VersionInfoModule.setVersion
+    VersionInfoModule.setVersion sut
     Dim raisedNumber As Long
     raisedNumber = Err.Number
     On Error GoTo TestFail
