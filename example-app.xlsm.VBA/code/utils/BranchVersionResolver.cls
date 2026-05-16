@@ -14,22 +14,32 @@ Private Type TClass
     manager As VersionManager
     isSystemUnderTest As Boolean
     branchName As String
+    Created As Boolean
 End Type
 
 Private this As TClass
 
+Private Sub Class_Initialize()
+    this.Created = False
+End Sub
+
 Public Sub Create(ByVal manager As VersionManager)
+    checkNotCreated
     Set this.manager = manager
     this.isSystemUnderTest = False
+    this.Created = True
 End Sub
 
 Public Sub CreateForTest(ByVal manager As VersionManager, ByVal branchName As String)
+    checkNotCreated
     Set this.manager = manager
     this.isSystemUnderTest = True
     this.branchName = branchName
+    this.Created = True
 End Sub
+
 Public Sub setVersionFromBranchIfReleaseOrHotfix()
-'    checkCreated
+    checkCreated
     Dim Version As String: Version = getVersionFromCurrentBranch()
     If Len(Version) = 0 Then Exit Sub
     this.manager.setVersion Version
@@ -68,3 +78,13 @@ Private Function createTargetBranchRegex() As RegExp
     regEx.IgnoreCase = False
     Set createTargetBranchRegex = regEx
 End Function
+
+Private Sub checkCreated()
+    If this.Created Then Exit Sub
+    Err.Raise AppError.NOT_CREATED, "BranchVersionResolver", "BranchVersionResolver has not been created."
+End Sub
+
+Private Sub checkNotCreated()
+    If Not this.Created Then Exit Sub
+    Err.Raise AppError.HAS_CREATED, "BranchVersionResolver", "BranchVersionResolver has been created."
+End Sub
