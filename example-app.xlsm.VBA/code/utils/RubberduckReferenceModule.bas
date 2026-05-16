@@ -25,11 +25,16 @@ Public Sub AddRubberduckReference()
     Exit Sub
 
 ErrorHandler:
+    Dim addErrorDescription As String: addErrorDescription = Err.Description
+    Dim restored As Boolean:           restored = True
     ' Roll back if we removed an existing reference and re-add failed.
     If Len(oldPath) > 0 Then
-        Call TryRestoreRubberduckReference(oldPath)
+        restored = TryRestoreRubberduckReference(oldPath)
+        If Not restored Then _
+           addErrorDescription = addErrorDescription & _
+           " Restoration of the previous Rubberduck reference also failed."
     End If
-    showAddErrorMessage Err.Description
+    showAddErrorMessage addErrorDescription
 End Sub
 
 Private Function GetExistingRubberduckReferencePath() As String
