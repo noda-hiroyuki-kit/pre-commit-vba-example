@@ -38,6 +38,7 @@ End Sub
 
 Public Sub Create(ByVal targetBook As Workbook)
     checkNotCreated
+    this.isSystemUnderTest = False
     Set this.bookVersion = targetBook.BuiltinDocumentProperties.Item("Document Version")
     Dim propertyVersion As String
     propertyVersion = CStr(this.bookVersion.Value)
