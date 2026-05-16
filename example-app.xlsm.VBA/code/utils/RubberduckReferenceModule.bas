@@ -70,7 +70,6 @@ End Function
 Private Function TryAddRubberduckReference(ByVal platform As String) As Boolean
     On Error GoTo Failed
     Dim path As String: path = getPathRubberduckTlb(platform)
-    MsgBox "Try add: " & path, vbInformation
     ThisWorkbook.VBProject.References.AddFromFile path
     TryAddRubberduckReference = True
     Exit Function
