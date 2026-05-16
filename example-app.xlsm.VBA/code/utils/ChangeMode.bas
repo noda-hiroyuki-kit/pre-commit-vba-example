@@ -4,12 +4,7 @@ Option Explicit
 
 '@EntryPoint
 Public Sub PrepareRelease()
-    Dim manager As VersionManager: Set manager = New VersionManager
-    manager.Create ThisWorkbook
-    Dim resolver As BranchVersionResolver: Set resolver = New BranchVersionResolver
-    resolver.Create manager
-    resolver.SetVersionFromBranchIfReleaseOrHotfix
-
+    VersionInfoModule.SetVersionFromBranchIfReleaseOrHotfix
     SetCanRefFalse
     RemoveRubberduckReference
 End Sub
