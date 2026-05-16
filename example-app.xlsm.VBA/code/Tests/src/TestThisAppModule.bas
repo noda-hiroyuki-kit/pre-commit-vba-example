@@ -76,7 +76,6 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
 TestExit:
     '@Ignore UnhandledOnErrorResumeNext
     On Error Resume Next
-'    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = backup
     Exit Sub
 TestFail:
     testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
