@@ -70,7 +70,7 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
     'Assert:
     With testCon.Fakes.MsgBox.Verify
         .Parameter testCon.Fakes.Params.MsgBox.Prompt, _
-            "example-app" & vbNewLine & "v1.0.0"
+                   "example-app" & vbNewLine & "v1.0.0"
     End With
 
 TestExit:
