@@ -42,10 +42,16 @@ End Sub
 Public Function IsValid(ByVal ValueArg As String) As ValidationResult
     Set IsValid = New ValidationResult
     Dim valueLength As Long: valueLength = LenB(StrConv(ValueArg, vbFromUnicode))
-    If valueLength < MIN_LENGTH Then IsValid.SetInvalid: _
-    IsValid.SetMessage "Name length is " & MIN_LENGTH & " Characters or more.": Exit Function
-    If valueLength > MAX_LENGTH Then IsValid.SetInvalid: _
-    IsValid.SetMessage "Name length is " & MAX_LENGTH & " Characters or less.": Exit Function
+    If valueLength < MIN_LENGTH Then
+        IsValid.SetInvalid
+        IsValid.SetMessage "Name length is " & MIN_LENGTH & " Characters or more."
+        Exit Function
+    End If
+    If valueLength > MAX_LENGTH Then
+        IsValid.SetInvalid
+        IsValid.SetMessage "Name length is " & MAX_LENGTH & " Characters or less."
+        Exit Function
+    End If
     IsValid.SetValid
     IsValid.SetMessage "OK"
 End Function
