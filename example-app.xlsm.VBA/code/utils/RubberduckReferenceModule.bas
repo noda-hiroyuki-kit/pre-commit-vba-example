@@ -61,13 +61,6 @@ ErrorHandler:
     showRemoveErrorMessage Err.Description
 End Sub
 
-Private Function hasRubberduckReference() As Boolean
-    Dim ref As Reference
-    For Each ref In ThisWorkbook.VBProject.References
-        If IsRubberduckReference(ref) Then hasRubberduckReference = True: Exit Function
-    Next ref
-End Function
-
 Private Function TryRemoveRubberduckReference() As Boolean
     Dim ref As Reference
     For Each ref In ThisWorkbook.VBProject.References
