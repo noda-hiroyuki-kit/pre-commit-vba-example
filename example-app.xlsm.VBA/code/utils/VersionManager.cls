@@ -13,7 +13,7 @@ Option Explicit
 Private Type TVersionManager
     currentVersion As String
     nextVersion As String
-    bookVersion As Object
+    bookVersion As Office.DocumentProperty
     semVer As SemanticVersioning
     Created As Boolean
     isSystemUnderTest As Boolean
