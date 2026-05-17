@@ -155,3 +155,36 @@ TestFail:
     testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
     Resume TestExit
 End Sub
+
+'@TestMethod("setVersion")
+Private Sub TestSetVersionCreatesManagerWhenNotProvided()
+    On Error GoTo TestFail
+
+    'Arrange:
+    Dim probe As VersionManager: Set probe = New VersionManager
+    probe.Create ThisWorkbook
+    Dim currentVersion As String
+    currentVersion = probe.Version
+    testCon.Fakes.InputBox.Returns currentVersion
+
+    'Act:
+    On Error Resume Next
+    VersionInfoModule.SetVersion
+    Dim raisedNumber As Long
+    raisedNumber = Err.Number
+    On Error GoTo TestFail
+
+    'Assert:
+    testCon.Assert.AreEqual CLng(0), raisedNumber
+    Dim actual As VersionManager: Set actual = New VersionManager
+    actual.Create ThisWorkbook
+    testCon.Assert.AreEqual currentVersion, actual.Version
+
+TestExit:
+    '@Ignore UnhandledOnErrorResumeNext
+    On Error Resume Next
+    Exit Sub
+TestFail:
+    testCon.Assert.Fail "Test raised an error: #" & Err.Number & " - " & Err.Description
+    Resume TestExit
+End Sub
