@@ -39,7 +39,7 @@ Private Sub TestShowAppIntroductionDisplaysExpectedMessage()
     'Arrange:
     testCon.Fakes.MsgBox.Returns vbOK
     'Act:
-    ThisAppModule.showAppIntroduction
+    ThisAppModule.ShowAppIntroduction
     'Assert:
     With testCon.Fakes.MsgBox.Verify
         .Parameter testCon.Fakes.Params.MsgBox.Prompt, "This app is example-app."
@@ -66,7 +66,7 @@ Private Sub TestShowVersionDisplaysExpectedMessage()
     testCon.Fakes.InputBox.Returns "v1.0.0"
     VersionInfoModule.SetVersion sut
     'Act:
-    ThisAppModule.showVersion sut
+    ThisAppModule.ShowVersion sut
     'Assert:
     With testCon.Fakes.MsgBox.Verify
         .Parameter testCon.Fakes.Params.MsgBox.Prompt, _
