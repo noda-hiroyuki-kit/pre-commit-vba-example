@@ -84,7 +84,7 @@ Private Sub addRubberduckReferenceByArchitecture()
     If TryAddRubberduckReference("win64") Then Exit Sub
     If TryAddRubberduckReference("win32") Then Exit Sub
     If TryAddRubberduckReferenceFromKnownPath() Then Exit Sub
-    Err.Raise AppError.RUBBERDUCK_TYPELIB_NOT_FOUND, "AddRubberduckReference", "Rubberduck type library was not found in registry or known path."
+    Err.Raise AppError.RUBBERDUCK_TYPELIB_NOT_FOUND, "RubberduckReferenceModule", "Rubberduck type library was not found in registry or known path."
 End Sub
 
 Private Function TryAddRubberduckReferenceFromFile(ByVal knownPath As String) As Boolean
