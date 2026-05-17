@@ -68,20 +68,18 @@ Private Function normalize(ByVal versionText As String) As String
 End Function
 
 Private Function splitVersion(ByVal versionText As String) As String()
+    Dim versionTextLocal As String: versionTextLocal = versionText
+    Dim plusPos As Long: plusPos = InStr(versionTextLocal, "+")
+    If plusPos > 0 Then versionTextLocal = Left$(versionTextLocal, plusPos - 1)
+
+    Dim dashPos As Long: dashPos = InStr(versionTextLocal, "-")
     Dim result(0 To 1) As String
-    Dim plusPos As Long
-    Dim dashPos As Long
-
-    plusPos = InStr(versionText, "+")
-    If plusPos > 0 Then versionText = Left$(versionText, plusPos - 1)
-
-    dashPos = InStr(versionText, "-")
     If dashPos = 0 Then
-        result(0) = versionText
+        result(0) = versionTextLocal
         result(1) = vbNullString
     Else
-        result(0) = Left$(versionText, dashPos - 1)
-        result(1) = Mid$(versionText, dashPos + 1)
+        result(0) = Left$(versionTextLocal, dashPos - 1)
+        result(1) = Mid$(versionTextLocal, dashPos + 1)
     End If
 
     splitVersion = result
@@ -110,12 +108,12 @@ Private Function compareCore(ByVal leftText As String, ByVal rightText As String
     Dim leftParts() As String:  leftParts = Split(leftText, ".")
     Dim rightParts() As String: rightParts = Split(rightText, ".")
 
-    Dim i As Long
-    For i = 0 To 2
-        Dim c As ComparisonResult
-        c = compareNumericIdentifier(leftParts(i), rightParts(i))
-        If Not c = ComparisonResult.EqualTo Then compareCore = c: Exit Function
-    Next i
+    Dim index As Long
+    For index = 0 To 2
+        Dim result As ComparisonResult
+        result = compareNumericIdentifier(leftParts(index), rightParts(index))
+        If Not result = ComparisonResult.EqualTo Then compareCore = result: Exit Function
+    Next index
 End Function
 
 Private Function comparePreRelease(ByVal leftText As String, ByVal rightText As String) As ComparisonResult
@@ -130,14 +128,14 @@ Private Function compareIdentifiers(ByVal leftText As String, ByVal rightText As
     Dim rightParts() As String: rightParts = Split(rightText, ".")
     Dim maxIndex As Long:       maxIndex = UBound(leftParts)
     If UBound(rightParts) > maxIndex Then maxIndex = UBound(rightParts)
-    Dim i As Long
-    For i = 0 To maxIndex
-        If i > UBound(leftParts) Then compareIdentifiers = ComparisonResult.LessThan:     Exit Function
-        If i > UBound(rightParts) Then compareIdentifiers = ComparisonResult.GreaterThan: Exit Function
-        Dim c As ComparisonResult
-        c = compareIdentifier(leftParts(i), rightParts(i))
-        If c <> ComparisonResult.EqualTo Then compareIdentifiers = c: Exit Function
-    Next i
+    Dim index As Long
+    For index = 0 To maxIndex
+        If index > UBound(leftParts) Then compareIdentifiers = ComparisonResult.LessThan:     Exit Function
+        If index > UBound(rightParts) Then compareIdentifiers = ComparisonResult.GreaterThan: Exit Function
+        Dim result As ComparisonResult
+        result = compareIdentifier(leftParts(index), rightParts(index))
+        If result <> ComparisonResult.EqualTo Then compareIdentifiers = result: Exit Function
+    Next index
 End Function
 
 Private Function compareIdentifier(ByVal leftText As String, ByVal rightText As String) As ComparisonResult

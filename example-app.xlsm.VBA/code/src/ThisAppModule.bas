@@ -8,6 +8,7 @@ Public Sub ShowAppIntroduction()
 End Sub
 
 Public Sub ShowVersion(Optional ByVal manager As VersionManager)
-    If manager Is Nothing Then Set manager = New VersionManager: manager.Create ThisWorkbook
-    MsgBox "example-app" & vbNewLine & manager.Version, vbOKOnly + vbSystemModal + vbInformation
+    Dim managerLocal As VersionManager: Set managerLocal = manager
+    If managerLocal Is Nothing Then Set managerLocal = New VersionManager: managerLocal.Create ThisWorkbook
+    MsgBox "example-app" & vbNewLine & managerLocal.Version, vbOKOnly + vbSystemModal + vbInformation
 End Sub

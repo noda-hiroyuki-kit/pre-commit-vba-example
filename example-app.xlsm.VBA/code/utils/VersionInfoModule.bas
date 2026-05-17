@@ -7,8 +7,9 @@ Public Sub SetVersion(Optional ByVal manager As VersionManager)
     Dim response As String
     response = InputBox("Input Version")
     If Len(response) = 0 Then Exit Sub
-    If manager Is Nothing Then Set manager = New VersionManager: manager.Create ThisWorkbook
-    manager.SetVersion response
+    Dim managerLocal As VersionManager: Set managerLocal = manager
+    If managerLocal Is Nothing Then Set managerLocal = New VersionManager: managerLocal.Create ThisWorkbook
+    managerLocal.SetVersion response
 End Sub
 
 '@EntryPoint

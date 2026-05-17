@@ -46,7 +46,9 @@ Private Sub TestVersionBeforeCreateRaisesNotCreated()
 
     ' Act
     On Error Resume Next
+    '@Ignore VariableNotUsed
     Dim actual As String
+    '@Ignore AssignmentNotUsed
     actual = sut.Version
     Dim raisedNumber As Long
     raisedNumber = Err.Number
