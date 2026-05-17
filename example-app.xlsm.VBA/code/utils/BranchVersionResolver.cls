@@ -82,6 +82,7 @@ Private Function readStdOut(ByVal commandText As String) As String
 CurrentDirectoryError:
     Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
               "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
+    Exit Function
 ExecError:
     Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
               "Failed to execute command: " & commandText & " (" & Err.Description & ")"
