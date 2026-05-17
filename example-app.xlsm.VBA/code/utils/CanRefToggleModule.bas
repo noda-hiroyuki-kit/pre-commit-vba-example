@@ -11,7 +11,7 @@ Public Sub SetCanRefTrue()
     SetCanRefValue True
     Exit Sub
 ErrorHandler:
-    MsgBox "Error: " & Err.Description
+    Err.Raise Err.Number, "CanRefToggleModule.SetCanRefTrue", Err.Description
 End Sub
 
 '@EntryPoint
@@ -20,7 +20,7 @@ Public Sub SetCanRefFalse()
     SetCanRefValue False
     Exit Sub
 ErrorHandler:
-    MsgBox "Error: " & Err.Description
+    Err.Raise Err.Number, "CanRefToggleModule.SetCanRefFalse", Err.Description
 End Sub
 
 Private Sub SetCanRefValue(ByVal newValue As Boolean)
