@@ -10,9 +10,10 @@ Attribute VB_Exposed = False
 '@Folder "utils"
 Option Explicit
 
+Private Const INITIAL_VERSION As String = "v0.0.1"
+
 Private Type TVersionManager
-    currentVersion As String
-    nextVersion As String
+    versionForTest As String
     bookVersion As Office.DocumentProperty
     semVer As SemanticVersioning
     Created As Boolean
@@ -22,8 +23,7 @@ End Type
 Private this As TVersionManager
 
 Private Sub Class_Initialize()
-    this.currentVersion = vbNullString
-    this.nextVersion = vbNullString
+    this.versionForTest = vbNullString
     Set this.semVer = New SemanticVersioning
     this.Created = False
 End Sub
@@ -32,7 +32,7 @@ Public Sub CreateForTest(ByVal currentVersion As String)
     checkNotCreated
     this.isSystemUnderTest = True
     this.semVer.EnsureSemVer currentVersion, "current"
-    this.currentVersion = currentVersion
+    this.versionForTest = currentVersion
     this.Created = True
 End Sub
 
@@ -42,8 +42,11 @@ Public Sub Create(ByVal targetBook As Workbook)
     Set this.bookVersion = targetBook.BuiltinDocumentProperties.Item("Document Version")
     Dim propertyVersion As String
     propertyVersion = CStr(this.bookVersion.Value)
-    this.semVer.EnsureSemVer propertyVersion, "current"
-    this.currentVersion = propertyVersion
+    If Len(propertyVersion) = 0 Then
+        ApplyToWorkbook INITIAL_VERSION
+    Else
+        this.semVer.EnsureSemVer propertyVersion, "current"
+    End If
     this.Created = True
 End Sub
 
@@ -53,13 +56,8 @@ Public Property Get Version() As String
 End Property
 
 Private Function getVersion() As String
-    If this.isSystemUnderTest Then getVersion = getVersionUnderTest: Exit Function
+    If this.isSystemUnderTest Then getVersion = this.versionForTest: Exit Function
     getVersion = CStr(this.bookVersion.Value)
-End Function
-
-Private Function getVersionUnderTest() As String
-    If this.nextVersion = vbNullString Then getVersionUnderTest = this.currentVersion: Exit Function
-    getVersionUnderTest = this.nextVersion
 End Function
 
 Public Sub SetVersion(ByVal nextVersion As String)
@@ -69,14 +67,15 @@ End Sub
 
 Private Sub ApplyToWorkbook(ByVal nextVersion As String)
     this.semVer.EnsureSemVer nextVersion, "next"
-    If Len(Trim$(this.currentVersion)) > 0 Then
-        this.semVer.EnsureNoRollback this.currentVersion, nextVersion
+    Dim currentVersion As String: currentVersion = getVersion
+    If Len(Trim$(currentVersion)) > 0 Then
+        this.semVer.EnsureNoRollback currentVersion, nextVersion
     End If
     setVersion_ nextVersion
 End Sub
 
 Private Sub setVersion_(ByVal nextVersion As String)
-    If this.isSystemUnderTest Then this.nextVersion = nextVersion: Exit Sub
+    If this.isSystemUnderTest Then this.versionForTest = nextVersion: Exit Sub
     this.bookVersion.Value = nextVersion
 End Sub
 
