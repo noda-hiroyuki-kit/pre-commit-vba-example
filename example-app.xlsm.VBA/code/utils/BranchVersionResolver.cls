@@ -60,9 +60,8 @@ Private Sub logBranchNameResolutionError(ByVal commandText As String, ByVal erro
 End Sub
 
 Private Function getCurrentBranchName() As String
-    On Error GoTo ErrorHandler
-
     Dim commandText As String: commandText = "git rev-parse --abbrev-ref HEAD"
+    On Error GoTo ErrorHandler
     getCurrentBranchName = readStdOut(commandText)
     Exit Function
 
