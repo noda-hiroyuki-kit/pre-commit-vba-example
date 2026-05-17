@@ -144,7 +144,7 @@ Private Sub TestSetVersionRejectsRollback()
     raisedNumber = Err.Number
     On Error GoTo TestFail
     'Assert:
-    testCon.Assert.AreEqual True, raisedNumber <> 0
+    testCon.Assert.AreEqual AppError.VERSION_ROLLBACK_NOT_ALLOWED, raisedNumber
     testCon.Assert.AreEqual versionBefore, sut.Version
 
 TestExit:
