@@ -55,10 +55,6 @@ SetVersionError:
               "Failed to set version from branch """ & branchName & """: " & Err.Description
 End Sub
 
-Private Function getVersionFromCurrentBranch() As String
-    getVersionFromCurrentBranch = extractVersionFromBranchName(getCurrentBranchName())
-End Function
-
 Private Sub logBranchNameResolutionError(ByVal commandText As String, ByVal errorNumber As Long, ByVal errorDescription As String)
     Debug.Print "BranchVersionResolver.getCurrentBranchName failed. Command=""" & commandText & """ Error " & CStr(errorNumber) & ": " & errorDescription
 End Sub
