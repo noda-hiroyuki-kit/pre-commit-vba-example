@@ -108,6 +108,11 @@ Private Function compareCore(ByVal leftText As String, ByVal rightText As String
     Dim leftParts() As String:  leftParts = Split(leftText, ".")
     Dim rightParts() As String: rightParts = Split(rightText, ".")
 
+    If UBound(leftParts) <> 2 Or UBound(rightParts) <> 2 Then
+        Err.Raise AppError.INVALID_VALUE, "SemanticVersioning.compareCore", _
+                  "Core version must contain exactly 3 parts: left=""" & leftText & """, right=""" & rightText & """"
+    End If
+
     Dim index As Long
     For index = 0 To 2
         Dim result As ComparisonResult
