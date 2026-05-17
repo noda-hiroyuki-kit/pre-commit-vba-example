@@ -133,8 +133,8 @@ Private Sub TestSetVersionRejectsRollback()
 
     'Arrange:
     Dim sut As VersionManager: Set sut = New VersionManager
-    sut.CreateForTest "2.1.0"
-    testCon.Fakes.InputBox.Returns "2.0.9"
+    sut.CreateForTest "v2.1.0"
+    testCon.Fakes.InputBox.Returns "v2.0.9"
     Dim versionBefore As String
     versionBefore = sut.Version
     'Act:
