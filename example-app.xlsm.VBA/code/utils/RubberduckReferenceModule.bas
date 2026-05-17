@@ -53,6 +53,8 @@ Private Function TryRestoreRubberduckReference(ByVal path As String) As Boolean
     TryRestoreRubberduckReference = True
     Exit Function
 Failed:
+    Debug.Print "TryRestoreRubberduckReference failed. path=" & path & _
+                ", err=" & Err.Number & ": " & Err.Description
     Err.Clear
 End Function
 
@@ -93,6 +95,8 @@ Private Function TryAddRubberduckReferenceFromFile(ByVal knownPath As String) As
     TryAddRubberduckReferenceFromFile = True
     Exit Function
 Failed:
+    Debug.Print "TryAddRubberduckReferenceFromFile failed. path=" & knownPath & _
+                ", err=" & Err.Number & ": " & Err.Description
     Err.Clear
 End Function
 
@@ -115,6 +119,8 @@ Private Function TryAddRubberduckReference(ByVal platform As String) As Boolean
     TryAddRubberduckReference = True
     Exit Function
 Failed:
+    Debug.Print "TryAddRubberduckReference failed. platform=" & platform & _
+                ", err=" & Err.Number & ": " & Err.Description
     Err.Clear
 End Function
 
