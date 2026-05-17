@@ -115,4 +115,4 @@ Use VBA Immediate Window (Ctrl+G in VBE) to validate:
 
 - [5 Lines Code Principle](https://dev.to/kanani_nirav/the-five-lines-of-code-principle-why-less-is-more-in-programming-31j6)
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
-- [RegExp](https://devblogs.microsoft.com/microsoft365dev/how-to-prepare-vba-projects-for-vbscript-deprecation/)
+- [Use RegExp classes included in VBE](https://devblogs.microsoft.com/microsoft365dev/how-to-prepare-vba-projects-for-vbscript-deprecation/#use-regexp-classes-included-in-vbe)
