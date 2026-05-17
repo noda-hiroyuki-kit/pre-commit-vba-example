@@ -31,9 +31,12 @@ Private Sub SetCanRefValue(ByVal newValue As Boolean)
     For lineNum = 1 To vbMod.CountOfLines
         If InStr(vbMod.lines(lineNum, 1), "#Const canRef") = 0 Then GoTo continue
         vbMod.ReplaceLine lineNum, CreateNewCanRefLine(newValue)
-        Exit For
+        Exit Sub
 continue:
     Next lineNum
+
+    Err.Raise AppError.NOT_FOUND_CAN_REF, "CanRefToggleModule.SetCanRefValue", _
+              "#Const canRef directive not found in TestController module."
 End Sub
 
 Private Function CreateNewCanRefLine(ByVal newValue As Boolean) As String
