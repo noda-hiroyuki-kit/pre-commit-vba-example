@@ -84,7 +84,19 @@ Follow these standards for variable declarations and type usage:
 1. **Open workbook in Excel** (macro-enabled: .xlsm, .xlsb, .xlam, .xls)
 2. **Access VBE**: Press `Alt+F11`
 3. **Edit modules only in VBE**, never directly in `.xls?.VBA/` folder
-4. **Save workbook**: Use VBA Immediate Window `Excel.Application.DisplayAlerts = False: ThisWorkbook.Save: Excel.Application.DisplayAlerts = True`
+4. **Save workbook**: Set `Excel.Application.DisplayAlerts = False` before `ThisWorkbook.Save`, and always set `Excel.Application.DisplayAlerts = True` in cleanup/error handling even when save fails.
+```vba
+Public Sub SaveWorkbookSilently()
+    On Error GoTo ErrorHandler
+    Excel.Application.DisplayAlerts = False
+    ThisWorkbook.Save
+    Excel.Application.DisplayAlerts = True
+    Exit Sub
+ErrorHandler:
+    Excel.Application.DisplayAlerts = True
+    Err.Raise Err.Number, "SaveWorkbookSilently", Err.Description
+End Sub
+```
 5. **Stage changes**: `git add .`
 6. **Run pre-commit**: `uv run pre-commit` (this may update generated files)
 7. **Re-stage only if pre-commit changed files**: `git add .`
