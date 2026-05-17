@@ -68,8 +68,23 @@ End Function
 Private Function readStdOut(ByVal commandText As String) As String
     If this.isSystemUnderTest Then readStdOut = this.branchName: Exit Function
     Dim shell As WshShell: Set shell = New WshShell
-    shell.CurrentDirectory = ThisWorkbook.path
+
+    Dim workbookPath As String: workbookPath = ThisWorkbook.path
+    If Len(Trim$(workbookPath)) = 0 Then _
+       Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", "Workbook path is empty."
+
+    On Error GoTo CurrentDirectoryError
+    shell.CurrentDirectory = workbookPath
+
+    On Error GoTo ExecError
     readStdOut = Trim$(shell.Exec(commandText).StdOut.ReadAll)
+    Exit Function
+CurrentDirectoryError:
+    Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
+              "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
+ExecError:
+    Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
+              "Failed to execute command: " & commandText & " (" & Err.Description & ")"
 End Function
 
 Private Function extractVersionFromBranchName(ByVal branchName As String) As String
