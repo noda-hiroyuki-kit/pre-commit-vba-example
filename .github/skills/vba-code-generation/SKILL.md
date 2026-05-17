@@ -86,10 +86,10 @@ Follow these standards for variable declarations and type usage:
 3. **Edit modules only in VBE**, never directly in `.xls?.VBA/` folder
 4. **Save workbook**: Use VBA Immediate Window `Excel.Application.DisplayAlerts = False: ThisWorkbook.Save: Excel.Application.DisplayAlerts = True`
 5. **Stage changes**: `git add .`
-6. **Pre-commit hook**: Automatically extracts/updates `<workbook>.xls?.VBA/` folder
-7. **Stage changes**: `git add .`
+6. **Run pre-commit**: `uv run pre-commit` (this may update generated files)
+7. **Re-stage only if pre-commit changed files**: `git add .`
 8. **Review staged diff**: `git diff --cached -- <workbook>.xls?`
-9. **Commit & Push**: Use Conventional Commits style
+9. **Commit and push**: Use Conventional Commits style
 
 ### Testing Patterns
 
