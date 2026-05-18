@@ -17,22 +17,14 @@ Private Enum ComparisonResult
 End Enum
 
 Public Sub EnsureSemVer(ByVal versionText As String, ByVal role As String)
-    If isSemVer(StripVersionPrefix(versionText)) Then Exit Sub
+    If isSemVer(normalize(versionText)) Then Exit Sub
     Err.Raise AppError.INVALID_SEMVER, "SemanticVersioning", role & " version must follow SemVer: " & versionText
 End Sub
 
 Public Sub EnsureNoRollback(ByVal currentVersion As String, ByVal nextVersion As String)
-    If Compare(StripVersionPrefix(nextVersion), StripVersionPrefix(currentVersion)) >= ComparisonResult.EqualTo Then Exit Sub
+    If Compare(nextVersion, currentVersion) >= ComparisonResult.EqualTo Then Exit Sub
     Err.Raise AppError.VERSION_ROLLBACK_NOT_ALLOWED, "SemanticVersioning", "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion
 End Sub
-
-Private Function StripVersionPrefix(ByVal versionText As String) As String
-    If Len(versionText) > 0 And LCase$(Left$(versionText, 1)) = "v" Then
-        StripVersionPrefix = Mid$(versionText, 2)
-    Else
-        StripVersionPrefix = versionText
-    End If
-End Function
 
 Private Function isSemVer(ByVal versionText As String) As Boolean
     Dim regEx As RegExp
