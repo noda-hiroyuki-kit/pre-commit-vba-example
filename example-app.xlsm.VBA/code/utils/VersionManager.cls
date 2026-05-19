@@ -39,7 +39,9 @@ End Sub
 Public Sub Create(ByVal targetBook As Workbook)
     checkNotCreated
     this.isSystemUnderTest = False
+    On Error GoTo MissingPropertyError
     Set this.bookVersion = targetBook.BuiltinDocumentProperties.Item("Document Version")
+    On Error GoTo 0
     Dim propertyVersion As String
     propertyVersion = CStr(this.bookVersion.Value)
     If Len(propertyVersion) = 0 Then
@@ -48,6 +50,10 @@ Public Sub Create(ByVal targetBook As Workbook)
         this.semVer.EnsureSemVer propertyVersion, "current"
     End If
     this.Created = True
+    Exit Sub
+MissingPropertyError:
+    Err.Raise AppError.MISSING_PROPERTY, "VersionManager.Create", _
+              "Built-in document property ""Document Version"" is missing."
 End Sub
 
 Public Property Get Version() As String
