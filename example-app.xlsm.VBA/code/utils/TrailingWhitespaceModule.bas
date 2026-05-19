@@ -39,11 +39,11 @@ End Function
 
 Private Function JoinCleanedLines(ByRef lines() As String) As String
     Dim index As Long
+    Dim cleaned() As String: ReDim cleaned(LBound(lines) To UBound(lines))
     For index = LBound(lines) To UBound(lines)
-        Dim result As String
-        result = result & IIf(index > LBound(lines), vbNewLine, vbNullString) & RemoveLineTrailingWhitespace(lines(index))
+        cleaned(index) = RemoveLineTrailingWhitespace(lines(index))
     Next index
-    JoinCleanedLines = result
+    JoinCleanedLines = Join(cleaned, vbNewLine)
 End Function
 
 Private Function RemoveLineTrailingWhitespace(ByVal line As String) As String
