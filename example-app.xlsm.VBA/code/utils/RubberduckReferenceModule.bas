@@ -8,7 +8,7 @@ Private Const RUBBERDUCK_TYPELIB_GUID As String = "{7B73DBEA-A9EC-47C5-BF8B-FA7F
 Private Const RUBBERDUCK_TYPELIB_VERSION As String = "2.5"
 
 '@EntryPoint
-Public Sub AddRubberduckReference()
+Public Sub AddRubberduckReference(Optional ByVal showMessage As Boolean = True)
     On Error GoTo ErrorHandler
 
     Dim oldPath As String
@@ -21,7 +21,7 @@ Public Sub AddRubberduckReference()
     End If
 
     addRubberduckReferenceByArchitecture
-    showAddedMessage
+    If showMessage Then showAddedMessage
     Exit Sub
 
 ErrorHandler:

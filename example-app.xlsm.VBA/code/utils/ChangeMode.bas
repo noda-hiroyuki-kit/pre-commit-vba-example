@@ -22,7 +22,7 @@ PrepareReleaseError:
     Dim originalErrorDescription As String: originalErrorDescription = Err.Description
 
     On Error Resume Next
-    If rubberduckReferenceRemoved Then AddRubberduckReference
+    If rubberduckReferenceRemoved Then AddRubberduckReference showMessage:=False
     If canRefDisabled Then SetCanRefTrue
     On Error GoTo 0
 
