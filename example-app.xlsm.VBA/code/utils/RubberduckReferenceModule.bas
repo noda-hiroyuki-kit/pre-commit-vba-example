@@ -111,10 +111,6 @@ Private Function TryAddRubberduckReferenceFromKnownPath() As Boolean
         TryAddRubberduckReferenceFromKnownPath = True
         Exit Function
     End If
-
-    If TryAddRubberduckReferenceFromFile("C:\ProgramData\Rubberduck\Rubberduck.x32.tlb") Then
-        TryAddRubberduckReferenceFromKnownPath = True
-    End If
 End Function
 
 Private Function TryAddRubberduckReference(ByVal platform As String) As Boolean
