@@ -84,17 +84,20 @@ Follow these standards for variable declarations and type usage:
 1. **Open workbook in Excel** (macro-enabled: .xlsm, .xlsb, .xlam, .xls)
 2. **Access VBE**: Press `Alt+F11`
 3. **Edit modules only in VBE**, never directly in `.xls?.VBA/` folder
-4. **Save workbook**: Set `Excel.Application.DisplayAlerts = False` before `ThisWorkbook.Save`, and always set `Excel.Application.DisplayAlerts = True` in cleanup/error handling even when save fails.
+4. **Save workbook**: Use workbook-side save macro via `Application.Run` for MCP stability.
+   - Preferred Immediate Window command:
+     `Application.Run("WorkbookSaveModule.SaveWorkbookSilentlyByName", "example-app.xlsm")`
+   - The workbook module should guarantee `DisplayAlerts` restoration (even on error), for example:
 ```vba
-Public Sub SaveWorkbookSilently()
+Public Sub SaveWorkbookSilentlyByName(ByVal workbookName As String)
     On Error GoTo ErrorHandler
-    Excel.Application.DisplayAlerts = False
-    ThisWorkbook.Save
-    Excel.Application.DisplayAlerts = True
-    Exit Sub
-ErrorHandler:
-    Excel.Application.DisplayAlerts = True
-    Err.Raise Err.Number, "SaveWorkbookSilently", Err.Description
+    Application.DisplayAlerts = False
+    Application.Workbooks(workbookName).Save
+Cleanup:
+    Application.DisplayAlerts = True
+    If Err.Number <> 0 Then
+        Err.Raise Err.Number, "WorkbookSaveModule.SaveWorkbookSilentlyByName", Err.Description
+    End If
 End Sub
 ```
 5. **Stage changes**: `git add .`

@@ -37,7 +37,10 @@ Use these defaults unless the user explicitly overrides them:
 1. Open the macro-enabled workbook (`.xlsm`, `.xlsb`, `.xlam`, `.xls`, or similar)
 2. Press Alt+F11 or right-click -> Edit -> Trigger VBE
 3. Edit VBA code in the VBE module browser
-4. Save the workbook (Ctrl+S)
+4. Save the workbook using the workbook save module entry point for MCP stability:
+   - Excel VBE Immediate Window command:
+     `Application.Run("WorkbookSaveModule.SaveWorkbookSilentlyByName", "example-app.xlsm")`
+   - This calls the workbook-side save macro that temporarily disables DisplayAlerts and restores it safely.
 5. Pre-commit hook automatically extracts and updates `<workbook>.xls?.VBA/` folder (for example, `example-app.xlsm.VBA/`)
 6. `<workbook>.xls?.VBA/` folder contents are auto-generated; **do not edit directly**
 7. Stage the updated `.xls?` file and corresponding `<workbook>.xls?.VBA/` changes
@@ -52,7 +55,7 @@ Use these defaults unless the user explicitly overrides them:
 4. Wait for user decision when policy-sensitive or ambiguous.
 5. If implementation is selected:
    - **User edits VBA code in Excel VBE** (not directly in `.xls?.VBA` folder)
-   - Save the macro-enabled workbook
+   - Save the macro-enabled workbook via `Application.Run("WorkbookSaveModule.SaveWorkbookSilentlyByName", "example-app.xlsm")`
    - Verify staged diff: `git diff --cached --stat`
    - Confirm exact changes: `git diff --cached -- <workbook>.xls?` (for example, `git diff --cached -- example-app.xlsm`)
    - Commit with Conventional Commits style
