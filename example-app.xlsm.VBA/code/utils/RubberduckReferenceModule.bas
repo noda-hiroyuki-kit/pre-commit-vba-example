@@ -43,7 +43,12 @@ ErrorHandler:
 End Sub
 
 Public Function HasRubberduckReference() As Boolean
+    On Error GoTo ErrorHandler
     HasRubberduckReference = Len(GetExistingRubberduckReferencePath()) > 0
+    Exit Function
+ErrorHandler:
+    Err.Raise Err.Number, "RubberduckReferenceModule.HasRubberduckReference", _
+              "Failed to determine whether Rubberduck reference exists: " & Err.Description
 End Function
 
 Private Function GetExistingRubberduckReferencePath() As String
