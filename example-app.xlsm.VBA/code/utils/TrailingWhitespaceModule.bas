@@ -43,25 +43,26 @@ End Sub
 
 Private Function RemoveTrailingWhitespaceFromText(ByVal Text As String) As String
     Dim lines() As String: lines = Split(Text, vbNewLine)
-    RemoveTrailingWhitespaceFromText = JoinCleanedLines(lines)
+    Dim regEx As RegExp: Set regEx = CreateTrailingWhitespaceRegex()
+    RemoveTrailingWhitespaceFromText = JoinCleanedLines(lines, regEx)
 End Function
 
-Private Function JoinCleanedLines(ByRef lines() As String) As String
+Private Function JoinCleanedLines(ByRef lines() As String, ByVal regEx As RegExp) As String
     Dim index As Long
     Dim cleaned() As String: ReDim cleaned(LBound(lines) To UBound(lines))
     For index = LBound(lines) To UBound(lines)
-        cleaned(index) = RemoveLineTrailingWhitespace(lines(index))
+        cleaned(index) = RemoveLineTrailingWhitespace(lines(index), regEx)
     Next index
     JoinCleanedLines = Join(cleaned, vbNewLine)
 End Function
 
-Private Function RemoveLineTrailingWhitespace(ByVal line As String) As String
-    RemoveLineTrailingWhitespace = RegexReplace(line, "\s+$", vbNullString)
+Private Function RemoveLineTrailingWhitespace(ByVal line As String, ByVal regEx As RegExp) As String
+    RemoveLineTrailingWhitespace = regEx.Replace(line, vbNullString)
 End Function
 
-Private Function RegexReplace(ByVal inputText As String, ByVal Pattern As String, ByVal replacement As String) As String
+Private Function CreateTrailingWhitespaceRegex() As RegExp
     Dim regEx As RegExp: Set regEx = New RegExp
-    regEx.Pattern = Pattern
+    regEx.Pattern = "\s+$"
     regEx.Global = True
-    RegexReplace = regEx.Replace(inputText, replacement)
+    Set CreateTrailingWhitespaceRegex = regEx
 End Function
