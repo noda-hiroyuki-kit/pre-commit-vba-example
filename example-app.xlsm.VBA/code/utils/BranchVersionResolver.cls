@@ -81,20 +81,39 @@ Private Function readStdOut(ByVal commandText As String) As String
     On Error GoTo CurrentDirectoryError
     shell.CurrentDirectory = workbookPath
 
+    Dim execResult As WshExec
+    Dim stderrText As String
+
     On Error GoTo ExecError
-    readStdOut = Trim$(shell.Exec(commandText).StdOut.ReadAll)
+    Set execResult = shell.Exec(commandText)
+    readStdOut = Trim$(execResult.StdOut.ReadAll)
+    stderrText = Trim$(execResult.StdErr.ReadAll)
+
+    If execResult.ExitCode <> 0 Then
+        If IsGitNotAvailableError(stderrText) Then _
+           Err.Raise AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, "BranchVersionResolver.readStdOut", _
+                     "Git is not installed or configured. Please install git or check the system PATH configuration."
+
+        Dim failureDetail As String: failureDetail = stderrText
+        If Len(failureDetail) = 0 Then failureDetail = "No stderr output."
+        Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
+                  "Command failed with exit code " & CStr(execResult.ExitCode) & ": " & commandText & " (" & failureDetail & ")"
+    End If
     Exit Function
 CurrentDirectoryError:
     Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
               "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
     Exit Function
 ExecError:
-    If IsGitNotAvailableError(Err.Description) Then _
+    Dim execErrorText As String: execErrorText = Err.Description
+    If Len(stderrText) > 0 Then execErrorText = stderrText
+
+    If IsGitNotAvailableError(execErrorText) Then _
        Err.Raise AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, "BranchVersionResolver.readStdOut", _
                  "Git is not installed or configured. Please install git or check the system PATH configuration."
 
     Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
-              "Failed to execute command: " & commandText & " (" & Err.Description & ")"
+              "Failed to execute command: " & commandText & " (" & execErrorText & ")"
 End Function
 
 Private Function IsGitNotAvailableError(ByVal errorDescription As String) As Boolean
