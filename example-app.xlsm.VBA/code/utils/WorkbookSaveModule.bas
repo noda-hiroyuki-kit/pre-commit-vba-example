@@ -3,24 +3,20 @@ Attribute VB_Name = "WorkbookSaveModule"
 Option Explicit
 Option Private Module
 
+'@EntryPoint
 Public Sub SaveWorkbookSilently()
     SaveWorkbookSilentlyByName ThisWorkbook.Name
 End Sub
 
 Public Sub SaveWorkbookSilentlyByName(ByVal workbookName As String)
-    Dim wb As Workbook
-    Dim previousDisplayAlerts As Boolean
-
     On Error GoTo ErrorHandler
-    Set wb = Application.Workbooks(workbookName)
+    Dim targetWb As Workbook: Set targetWb = Excel.Application.Workbooks.Item(workbookName)
 
-    previousDisplayAlerts = Application.DisplayAlerts
     Application.DisplayAlerts = False
-    wb.Save
-    Application.DisplayAlerts = previousDisplayAlerts
+    targetWb.Save
+    Application.DisplayAlerts = True
     Exit Sub
-
 ErrorHandler:
-    Application.DisplayAlerts = previousDisplayAlerts
+    Application.DisplayAlerts = True
     Err.Raise Err.Number, "WorkbookSaveModule.SaveWorkbookSilentlyByName", Err.Description
 End Sub
