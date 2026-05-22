@@ -89,8 +89,20 @@ CurrentDirectoryError:
               "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
     Exit Function
 ExecError:
+    If IsGitNotAvailableError(Err.Description) Then _
+       Err.Raise AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, "BranchVersionResolver.readStdOut", _
+                 "Git is not installed or configured. Please install git or check the system PATH configuration."
+
     Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
               "Failed to execute command: " & commandText & " (" & Err.Description & ")"
+End Function
+
+Private Function IsGitNotAvailableError(ByVal errorDescription As String) As Boolean
+    Dim errText As String: errText = LCase$(errorDescription)
+    If InStr(errText, "not recognized") > 0 Then IsGitNotAvailableError = True: Exit Function
+    If InStr(errText, "cannot find the file") > 0 Then IsGitNotAvailableError = True: Exit Function
+    If InStr(errText, "system cannot find the file") > 0 Then IsGitNotAvailableError = True: Exit Function
+    If InStr(errText, "'git'") > 0 And InStr(errText, "not found") > 0 Then IsGitNotAvailableError = True: Exit Function
 End Function
 
 Private Function extractVersionFromBranchName(ByVal branchName As String) As String

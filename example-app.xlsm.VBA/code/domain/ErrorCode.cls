@@ -12,6 +12,7 @@ Option Explicit
 
 Public Enum AppError
     [_Base_Error] = vbObjectError + 1024
+    GIT_NOT_INSTALLED_OR_CONFIGURED
     HAS_CREATED
     INVALID_SEMVER
     INVALID_VALUE
