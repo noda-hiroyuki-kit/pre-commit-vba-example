@@ -37,6 +37,10 @@ Use these defaults unless the user explicitly overrides them:
 1. Open the macro-enabled workbook (`.xlsm`, `.xlsb`, `.xlam`, `.xls`, or similar)
 2. Press Alt+F11 or right-click -> Edit -> Trigger VBE
 3. Edit VBA code in the VBE module browser
+   - If you copy code from repository-exported `.bas` / `.cls` / `.frm` files back into VBE, omit export-only header lines.
+   - For `.bas`: omit `Attribute VB_Name = "..."`.
+   - For `.cls`: omit the leading `VERSION 1.0 CLASS` / `BEGIN ... END` block and following `Attribute ...` lines.
+   - For `.frm`: omit the leading `VERSION 5.00` / `Begin ... End` block and following `Attribute ...` lines.
 4. Save the workbook using the workbook save module entry point for MCP stability:
    - Excel VBE Immediate Window command:
      `Application.Run("WorkbookSaveModule.SaveWorkbookSilentlyByName", "example-app.xlsm")`

@@ -84,6 +84,11 @@ Follow these standards for variable declarations and type usage:
 1. **Open workbook in Excel** (macro-enabled: .xlsm, .xlsb, .xlam, .xls)
 2. **Access VBE**: Press `Alt+F11`
 3. **Edit modules only in VBE**, never directly in `.xls?.VBA/` folder
+   - When copying code from repository exports back into VBE, do **not** include export-only header lines.
+   - For `.bas`: skip the first `Attribute VB_Name = "..."` line.
+   - For `.cls`: skip the leading class header block (`VERSION 1.0 CLASS`, `BEGIN ... END`, and following `Attribute ...` lines).
+   - For `.frm`: skip the leading form header block (`VERSION 5.00`, `Begin ... End`, and following `Attribute ...` lines).
+   - These lines are managed by VBE/export format and can break VBE editing if pasted back into the editor.
 4. **Save workbook**: Use workbook-side save macro via `Application.Run` for MCP stability.
    - Preferred Immediate Window command:
      `Application.Run("WorkbookSaveModule.SaveWorkbookSilentlyByName", "example-app.xlsm")`
