@@ -6,7 +6,9 @@ Private Const RUBBERDUCK_REGEX As String = "rubberduck\.x\d+\.tlb"
 
 '@EntryPoint
 Public Sub PrepareRelease()
+    '@Ignore AssignmentNotUsed
     Dim canRefDisabled As Boolean: canRefDisabled = False
+    '@Ignore AssignmentNotUsed
     Dim rubberduckReferenceRemoved As Boolean: rubberduckReferenceRemoved = False
 
     On Error GoTo PrepareReleaseError
@@ -32,7 +34,9 @@ End Sub
 
 '@EntryPoint
 Public Sub ChangeDevelop()
+    '@Ignore AssignmentNotUsed
     Dim referenceAdded As Boolean: referenceAdded = False
+    '@Ignore AssignmentNotUsed
     Dim canRefEnabled As Boolean:  canRefEnabled = False
 
     On Error GoTo ChangeDevelopError
@@ -53,6 +57,7 @@ ChangeDevelopError:
 
     On Error Resume Next
     If canRefEnabled Then SetCanRefFalse
+    '@Ignore FunctionReturnValueDiscarded
     If referenceAdded Then RemoveRubberduckReference showMessage:=False
     On Error GoTo 0
 
