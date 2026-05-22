@@ -12,9 +12,9 @@ Option Explicit
 
 Public Enum AppError
     [_Base_Error] = vbObjectError + 1024
+    HAS_CREATED
     INVALID_SEMVER
     INVALID_VALUE
-    HAS_CREATED
     MISSING_PROPERTY
     NOT_CREATED
     NOT_FOUND_CAN_REF
