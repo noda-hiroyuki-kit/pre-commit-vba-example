@@ -42,6 +42,10 @@ ErrorHandler:
     Err.Raise originalErrorNumber, "RubberduckReferenceModule.AddRubberduckReference", addErrorDescription
 End Sub
 
+Public Function HasRubberduckReference() As Boolean
+    HasRubberduckReference = Len(GetExistingRubberduckReferencePath()) > 0
+End Function
+
 Private Function GetExistingRubberduckReferencePath() As String
     Dim ref As Reference
     For Each ref In ThisWorkbook.VBProject.References

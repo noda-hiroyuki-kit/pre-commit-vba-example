@@ -2,8 +2,6 @@ Attribute VB_Name = "ChangeMode"
 '@Folder("utils")
 Option Explicit
 
-Private Const RUBBERDUCK_REGEX As String = "rubberduck\.x\d+\.tlb"
-
 '@EntryPoint
 Public Sub PrepareRelease()
     '@Ignore AssignmentNotUsed
@@ -42,7 +40,7 @@ Public Sub ChangeDevelop()
     On Error GoTo ChangeDevelopError
     AddRubberduckReference showMessage:=False
 
-    referenceAdded = HasRubberduckReference()
+    referenceAdded = RubberduckReferenceModule.HasRubberduckReference()
     If Not referenceAdded Then
         Err.Raise AppError.RUBBERDUCK_TYPELIB_NOT_FOUND, "ChangeMode.ChangeDevelop", _
                   "Failed to add Rubberduck reference."
@@ -64,20 +62,3 @@ ChangeDevelopError:
     Err.Raise originalErrorNumber, "ChangeMode.ChangeDevelop", _
               "ChangeDevelop failed: " & originalErrorDescription
 End Sub
-
-Private Function HasRubberduckReference() As Boolean
-    Dim ref As Reference
-    For Each ref In ThisWorkbook.VBProject.References
-        If IsRubberduckReferencePath(ref.FullPath) Then
-            HasRubberduckReference = True
-            Exit Function
-        End If
-    Next ref
-End Function
-
-Private Function IsRubberduckReferencePath(ByVal referencePath As String) As Boolean
-    Dim regEx As RegExp: Set regEx = New RegExp
-    regEx.Pattern = RUBBERDUCK_REGEX
-    regEx.IgnoreCase = True
-    IsRubberduckReferencePath = regEx.Test(referencePath)
-End Function
