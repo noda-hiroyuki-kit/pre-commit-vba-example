@@ -64,10 +64,10 @@ Private Function getCurrentBranchName() As String
     On Error GoTo ErrorHandler
     getCurrentBranchName = readStdOut(commandText)
     Exit Function
-
 ErrorHandler:
     logBranchNameResolutionError commandText, Err.Number, Err.Description
-    getCurrentBranchName = vbNullString
+    Err.Raise Err.Number, "BranchVersionResolver.getCurrentBranchName", _
+              "Failed to determine current git branch using command """ & commandText & """: " & Err.Description
 End Function
 
 Private Function readStdOut(ByVal commandText As String) As String
