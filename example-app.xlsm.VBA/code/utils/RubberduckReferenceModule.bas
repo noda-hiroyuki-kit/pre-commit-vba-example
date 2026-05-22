@@ -16,7 +16,9 @@ Public Sub AddRubberduckReference(Optional ByVal showMessage As Boolean = True)
 
     If Len(oldPath) > 0 Then
         If Not TryRemoveRubberduckReference() Then
-            Err.Raise AppError.RUBBERDUCK_REFERENCE_RESTORE_FAILED, "AddRubberduckReference", "Failed to remove existing Rubberduck reference."
+            Err.Raise AppError.RUBBERDUCK_REFERENCE_REMOVE_FAILED, _
+                      "RubberduckReferenceModule.AddRubberduckReference", _
+                      "Failed to remove existing Rubberduck reference."
         End If
     End If
 
@@ -59,19 +61,27 @@ Failed:
 End Function
 
 '@EntryPoint
-Public Sub RemoveRubberduckReference()
+Public Function RemoveRubberduckReference(Optional ByVal showMessage As Boolean = True)
     On Error GoTo ErrorHandler
-    If Not TryRemoveRubberduckReference() Then showNotFoundMessage: Exit Sub
-    showRemovedMessage
-    Exit Sub
+    If Not TryRemoveRubberduckReference Then
+        RemoveRubberduckReference = False
+        If showMessage Then showNotFoundMessage
+        Exit Function
+    End If
+    RemoveRubberduckReference = True
+    If showMessage Then showRemovedMessage
+    Exit Function
 ErrorHandler:
-    showRemoveErrorMessage Err.Description
-End Sub
+    Err.Raise Err.Number, "RubberduckReferenceModule.RemoveRubberduckReference", Err.Description
+End Function
 
 Private Function TryRemoveRubberduckReference() As Boolean
     Dim ref As Reference
     For Each ref In ThisWorkbook.VBProject.References
-        If IsRubberduckReference(ref) Then ThisWorkbook.VBProject.References.Remove ref: TryRemoveRubberduckReference = True: Exit Function
+        If IsRubberduckReference(ref) Then _
+           ThisWorkbook.VBProject.References.Remove ref: _
+        TryRemoveRubberduckReference = True: _
+        Exit Function
     Next ref
 End Function
 
