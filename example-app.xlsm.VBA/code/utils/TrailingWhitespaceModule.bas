@@ -5,8 +5,16 @@ Option Private Module
 
 '@EntryPoint
 Public Sub CleanAllModulesInWorkbook()
+    On Error GoTo CleanAllModulesInWorkbookError
     ProcessEachModule ThisWorkbook.VBProject
     MsgBox "Removed trailing whitespace from all modules.", vbInformation + vbSystemModal + vbOKOnly
+    Exit Sub
+CleanAllModulesInWorkbookError:
+    MsgBox "Unable to clean VBA modules in this workbook." & vbNewLine & vbNewLine & _
+           "Programmatic access to the VBA project may be disabled, or one of the components could not be edited." & vbNewLine & vbNewLine & _
+           "Error " & Err.Number & ": " & Err.Description, _
+           vbExclamation + vbSystemModal + vbOKOnly, _
+           "Clean All Modules"
 End Sub
 
 Private Sub ProcessEachModule(ByVal vbProj As VBProject)
