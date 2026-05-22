@@ -61,7 +61,7 @@ Failed:
 End Function
 
 '@EntryPoint
-Public Function RemoveRubberduckReference(Optional ByVal showMessage As Boolean = True)
+Public Function RemoveRubberduckReference(Optional ByVal showMessage As Boolean = True) As Boolean
     On Error GoTo ErrorHandler
     If Not TryRemoveRubberduckReference Then
         RemoveRubberduckReference = False
