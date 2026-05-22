@@ -16,10 +16,6 @@ Public Sub PrepareRelease()
     canRefDisabled = True
 
     rubberduckReferenceRemoved = RubberduckReferenceModule.RemoveRubberduckReference
-    If Not rubberduckReferenceRemoved Then
-        Err.Raise AppError.RUBBERDUCK_REFERENCE_REMOVE_FAILED, "ChangeMode.PrepareRelease", _
-                  "Failed to remove Rubberduck reference."
-    End If
     Exit Sub
 PrepareReleaseError:
     Dim originalErrorNumber As Long:        originalErrorNumber = Err.Number
