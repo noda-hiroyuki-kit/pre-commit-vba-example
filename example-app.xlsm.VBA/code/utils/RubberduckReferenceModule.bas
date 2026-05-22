@@ -77,12 +77,19 @@ End Function
 
 Private Function TryRemoveRubberduckReference() As Boolean
     Dim ref As Reference
+    Dim target As Reference
+
     For Each ref In ThisWorkbook.VBProject.References
-        If IsRubberduckReference(ref) Then _
-           ThisWorkbook.VBProject.References.Remove ref: _
-        TryRemoveRubberduckReference = True: _
-        Exit Function
+        If IsRubberduckReference(ref) Then
+            Set target = ref
+            Exit For
+        End If
     Next ref
+
+    If target Is Nothing Then Exit Function
+
+    ThisWorkbook.VBProject.References.Remove target
+    TryRemoveRubberduckReference = True
 End Function
 
 Private Function IsRubberduckReference(ByVal ref As Reference) As Boolean
