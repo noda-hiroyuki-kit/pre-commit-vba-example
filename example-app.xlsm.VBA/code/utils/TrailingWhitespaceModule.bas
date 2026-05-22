@@ -17,8 +17,10 @@ Private Sub ProcessEachModule(ByVal vbProj As VBProject)
 End Sub
 
 Private Sub CleanModuleCode(ByRef component As VBComponent)
+    If component.CodeModule.CountOfLines = 0 Then Exit Sub
     Dim originalCode As String
     originalCode = component.CodeModule.lines(1, component.CodeModule.CountOfLines)
+
     Dim cleanedCode As String
     cleanedCode = RemoveTrailingWhitespaceFromText(originalCode)
     If originalCode <> cleanedCode Then
