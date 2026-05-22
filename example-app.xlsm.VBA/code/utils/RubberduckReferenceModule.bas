@@ -75,6 +75,7 @@ Public Function RemoveRubberduckReference(Optional ByVal showMessage As Boolean 
     If showMessage Then showRemovedMessage
     Exit Function
 ErrorHandler:
+    If showMessage Then showRemoveErrorMessage Err.Description
     Err.Raise Err.Number, "RubberduckReferenceModule.RemoveRubberduckReference", Err.Description
 End Function
 
