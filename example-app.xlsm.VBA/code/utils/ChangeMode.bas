@@ -15,7 +15,7 @@ Public Sub PrepareRelease()
     SetCanRefFalse
     canRefDisabled = True
 
-    rubberduckReferenceRemoved = RubberduckReferenceModule.RemoveRubberduckReference
+    rubberduckReferenceRemoved = RubberduckReferenceModule.RemoveRubberduckReference(showMessage:=False)
     Exit Sub
 PrepareReleaseError:
     Dim originalErrorNumber As Long:        originalErrorNumber = Err.Number
