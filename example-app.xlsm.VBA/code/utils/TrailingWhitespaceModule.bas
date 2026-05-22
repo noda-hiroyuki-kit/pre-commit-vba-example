@@ -23,13 +23,12 @@ Private Sub CleanModuleCode(ByRef component As VBComponent)
 
     Dim cleanedCode As String
     cleanedCode = RemoveTrailingWhitespaceFromText(originalCode)
-    If originalCode <> cleanedCode Then
-        ReplaceModuleCode component, cleanedCode
-    End If
+    ReplaceModuleCode component, originalCode, cleanedCode
 End Sub
 
 '@Ignore ParameterCanBeByVal
-Private Sub ReplaceModuleCode(ByRef component As VBComponent, ByVal newCode As String)
+Private Sub ReplaceModuleCode(ByRef component As VBComponent, ByVal originalCode As String, ByVal newCode As String)
+    If originalCode = newCode Then Exit Sub
     component.CodeModule.DeleteLines 1, component.CodeModule.CountOfLines
     component.CodeModule.InsertLines 1, newCode
 End Sub
