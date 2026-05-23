@@ -22,6 +22,9 @@ Public Sub EnsureSemVer(ByVal versionText As String, ByVal role As String)
 End Sub
 
 Public Sub EnsureNoRollback(ByVal currentVersion As String, ByVal nextVersion As String)
+    EnsureSemVer currentVersion, "Current"
+    EnsureSemVer nextVersion, "Next"
+
     If Compare(nextVersion, currentVersion) >= ComparisonResult.EqualTo Then Exit Sub
     Err.Raise AppError.VERSION_ROLLBACK_NOT_ALLOWED, "SemanticVersioning", "Version rollback is not allowed: " & currentVersion & " -> " & nextVersion
 End Sub
