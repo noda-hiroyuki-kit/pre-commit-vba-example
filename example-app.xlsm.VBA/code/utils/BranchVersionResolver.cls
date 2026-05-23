@@ -17,6 +17,17 @@ Private Type TClass
     Created As Boolean
 End Type
 
+Private Type BranchCommandContext
+    commandText As String
+    OriginalCurrentDirectory As String
+    HasOriginalCurrentDirectory As Boolean
+    StdOutText As String
+    StdErrText As String
+    ExitCode As Long
+    errorNumber As Long
+    errorDescription As String
+End Type
+
 Private this As TClass
 
 Private Sub Class_Initialize()
@@ -72,53 +83,125 @@ End Function
 
 Private Function readStdOut(ByVal commandText As String) As String
     If this.isSystemUnderTest Then readStdOut = this.branchName: Exit Function
-    Dim shell As WshShell: Set shell = New WshShell
 
+    Dim shell As WshShell: Set shell = New WshShell
+    Dim commandContext As BranchCommandContext: commandContext = newBranchCommandContext(commandText)
+
+    runBranchCommand shell, commandContext
+    If commandContext.errorNumber <> 0 Then _
+       Err.Raise commandContext.errorNumber, "BranchVersionResolver.readStdOut", commandContext.errorDescription
+
+    readStdOut = commandContext.StdOutText
+End Function
+
+Private Function newBranchCommandContext(ByVal commandText As String) As BranchCommandContext
+    Dim commandContext As BranchCommandContext
+    commandContext.commandText = commandText
+    newBranchCommandContext = commandContext
+End Function
+
+Private Sub runBranchCommand(ByVal shell As WshShell, ByRef commandContext As BranchCommandContext)
+    prepareShellCurrentDirectory shell, commandContext
+    executeCommand shell, commandContext
+    mapCommandFailure commandContext
+    restoreShellCurrentDirectory shell, commandContext
+End Sub
+
+Private Sub prepareShellCurrentDirectory(ByVal shell As WshShell, ByRef commandContext As BranchCommandContext)
     Dim workbookPath As String: workbookPath = ThisWorkbook.path
     If Len(Trim$(workbookPath)) = 0 Then _
-       Err.Raise AppError.BRANCH_VERSION_WORKBOOK_PATH_NOT_SET, "BranchVersionResolver.readStdOut", "Workbook path is empty."
+       setContextError commandContext, AppError.BRANCH_VERSION_WORKBOOK_PATH_NOT_SET, "Workbook path is empty.": Exit Sub
 
-    Dim originalCurrentDirectory As String
-    originalCurrentDirectory = shell.CurrentDirectory
+    captureCurrentDirectory shell, commandContext
+    If commandContext.errorNumber <> 0 Then Exit Sub
 
-    On Error GoTo CurrentDirectoryError
+    assignCurrentDirectory shell, workbookPath, commandContext
+End Sub
+
+Private Sub captureCurrentDirectory(ByVal shell As WshShell, ByRef commandContext As BranchCommandContext)
+    If commandContext.errorNumber <> 0 Then Exit Sub
+
+    On Error GoTo Failed
+    commandContext.OriginalCurrentDirectory = shell.CurrentDirectory
+    commandContext.HasOriginalCurrentDirectory = True
+    Exit Sub
+
+Failed:
+    setContextError commandContext, AppError.BRANCH_VERSION_CURRENT_DIRECTORY_SET_FAILED, _
+                    "Failed to read shell current directory (" & Err.Description & ")"
+End Sub
+
+Private Sub assignCurrentDirectory(ByVal shell As WshShell, ByVal workbookPath As String, ByRef commandContext As BranchCommandContext)
+    If commandContext.errorNumber <> 0 Then Exit Sub
+
+    On Error GoTo Failed
     shell.CurrentDirectory = workbookPath
+    Exit Sub
 
-    Dim execResult As WshExec
-    Dim stderrText As String
+Failed:
+    setContextError commandContext, AppError.BRANCH_VERSION_CURRENT_DIRECTORY_SET_FAILED, _
+                    "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
+End Sub
 
-    On Error GoTo ExecError
-    Set execResult = shell.Exec(commandText)
-    readStdOut = Trim$(execResult.StdOut.ReadAll)
-    stderrText = Trim$(execResult.StdErr.ReadAll)
+Private Sub executeCommand(ByVal shell As WshShell, ByRef commandContext As BranchCommandContext)
+    If commandContext.errorNumber <> 0 Then Exit Sub
 
-    If execResult.ExitCode <> 0 Then
-        If IsGitNotAvailableError(stderrText) Then _
-           Err.Raise AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, "BranchVersionResolver.readStdOut", _
-                     "Git is not installed or configured. Please install git or check the system PATH configuration."
+    On Error GoTo Failed
+    Dim execResult As WshExec: Set execResult = shell.Exec(commandContext.commandText)
+    readExecStreams execResult, commandContext
+    Exit Sub
 
-        Dim failureDetail As String: failureDetail = stderrText
-        If Len(failureDetail) = 0 Then failureDetail = "No stderr output."
-        Err.Raise AppError.BRANCH_VERSION_COMMAND_FAILED, "BranchVersionResolver.readStdOut", _
-                  "Command failed with exit code " & CStr(execResult.ExitCode) & ": " & commandText & " (" & failureDetail & ")"
-    End If
-    GoTo Cleanup
-CurrentDirectoryError:
-    Err.Raise AppError.BRANCH_VERSION_CURRENT_DIRECTORY_SET_FAILED, "BranchVersionResolver.readStdOut", _
-              "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
-    GoTo Cleanup
-ExecError:
-    Dim execErrorText As String: execErrorText = Err.Description
-    If Len(stderrText) > 0 Then execErrorText = stderrText
+Failed:
+    mapExecException commandContext, Err.Description
+End Sub
 
-    If IsGitNotAvailableError(execErrorText) Then _
-       Err.Raise AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, "BranchVersionResolver.readStdOut", _
-                 "Git is not installed or configured. Please install git or check the system PATH configuration."
+Private Sub readExecStreams(ByVal execResult As WshExec, ByRef commandContext As BranchCommandContext)
+    commandContext.StdOutText = Trim$(execResult.StdOut.ReadAll)
+    commandContext.StdErrText = Trim$(execResult.StdErr.ReadAll)
+    commandContext.ExitCode = execResult.ExitCode
+End Sub
 
-    Err.Raise AppError.BRANCH_VERSION_COMMAND_FAILED, "BranchVersionResolver.readStdOut", _
-              "Failed to execute command: " & commandText & " (" & execErrorText & ")"
-Cleanup:
-    shell.CurrentDirectory = originalCurrentDirectory
+Private Sub mapCommandFailure(ByRef commandContext As BranchCommandContext)
+    If commandContext.errorNumber <> 0 Then Exit Sub
+    If commandContext.ExitCode = 0 Then Exit Sub
+
+    If IsGitNotAvailableError(commandContext.StdErrText) Then setGitNotInstalledError commandContext: Exit Sub
+
+    Dim detail As String: detail = fallbackText(commandContext.StdErrText, "No stderr output.")
+    setContextError commandContext, AppError.BRANCH_VERSION_COMMAND_FAILED, _
+                    "Command failed with exit code " & CStr(commandContext.ExitCode) & ": " & commandContext.commandText & " (" & detail & ")"
+End Sub
+
+Private Sub mapExecException(ByRef commandContext As BranchCommandContext, ByVal errText As String)
+    Dim detail As String: detail = fallbackText(commandContext.StdErrText, errText)
+    If IsGitNotAvailableError(detail) Then setGitNotInstalledError commandContext: Exit Sub
+
+    setContextError commandContext, AppError.BRANCH_VERSION_COMMAND_FAILED, _
+                    "Failed to execute command: " & commandContext.commandText & " (" & detail & ")"
+End Sub
+
+Private Sub restoreShellCurrentDirectory(ByVal shell As WshShell, ByRef commandContext As BranchCommandContext)
+    If Not commandContext.HasOriginalCurrentDirectory Then Exit Sub
+
+    On Error Resume Next
+    shell.CurrentDirectory = commandContext.OriginalCurrentDirectory
+    On Error GoTo 0
+End Sub
+
+Private Sub setGitNotInstalledError(ByRef commandContext As BranchCommandContext)
+    setContextError commandContext, AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, _
+                    "Git is not installed or configured. Please install git or check the system PATH configuration."
+End Sub
+
+Private Sub setContextError(ByRef commandContext As BranchCommandContext, ByVal errorNumber As Long, ByVal errorDescription As String)
+    If commandContext.errorNumber <> 0 Then Exit Sub
+    commandContext.errorNumber = errorNumber
+    commandContext.errorDescription = errorDescription
+End Sub
+
+Private Function fallbackText(ByVal preferred As String, ByVal fallback As String) As String
+    fallbackText = Trim$(preferred)
+    If Len(fallbackText) = 0 Then fallbackText = fallback
 End Function
 
 Private Function IsGitNotAvailableError(ByVal errorDescription As String) As Boolean
