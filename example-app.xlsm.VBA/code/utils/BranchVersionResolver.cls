@@ -78,6 +78,9 @@ Private Function readStdOut(ByVal commandText As String) As String
     If Len(Trim$(workbookPath)) = 0 Then _
        Err.Raise AppError.BRANCH_VERSION_WORKBOOK_PATH_NOT_SET, "BranchVersionResolver.readStdOut", "Workbook path is empty."
 
+    Dim originalCurrentDirectory As String
+    originalCurrentDirectory = shell.CurrentDirectory
+
     On Error GoTo CurrentDirectoryError
     shell.CurrentDirectory = workbookPath
 
@@ -99,11 +102,11 @@ Private Function readStdOut(ByVal commandText As String) As String
         Err.Raise AppError.BRANCH_VERSION_COMMAND_FAILED, "BranchVersionResolver.readStdOut", _
                   "Command failed with exit code " & CStr(execResult.ExitCode) & ": " & commandText & " (" & failureDetail & ")"
     End If
-    Exit Function
+    GoTo Cleanup
 CurrentDirectoryError:
     Err.Raise AppError.BRANCH_VERSION_CURRENT_DIRECTORY_SET_FAILED, "BranchVersionResolver.readStdOut", _
               "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
-    Exit Function
+    GoTo Cleanup
 ExecError:
     Dim execErrorText As String: execErrorText = Err.Description
     If Len(stderrText) > 0 Then execErrorText = stderrText
@@ -114,6 +117,8 @@ ExecError:
 
     Err.Raise AppError.BRANCH_VERSION_COMMAND_FAILED, "BranchVersionResolver.readStdOut", _
               "Failed to execute command: " & commandText & " (" & execErrorText & ")"
+Cleanup:
+    shell.CurrentDirectory = originalCurrentDirectory
 End Function
 
 Private Function IsGitNotAvailableError(ByVal errorDescription As String) As Boolean
