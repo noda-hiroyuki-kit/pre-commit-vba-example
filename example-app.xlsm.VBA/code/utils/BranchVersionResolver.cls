@@ -76,7 +76,7 @@ Private Function readStdOut(ByVal commandText As String) As String
 
     Dim workbookPath As String: workbookPath = ThisWorkbook.path
     If Len(Trim$(workbookPath)) = 0 Then _
-       Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", "Workbook path is empty."
+       Err.Raise AppError.BRANCH_VERSION_WORKBOOK_PATH_NOT_SET, "BranchVersionResolver.readStdOut", "Workbook path is empty."
 
     On Error GoTo CurrentDirectoryError
     shell.CurrentDirectory = workbookPath
@@ -96,12 +96,12 @@ Private Function readStdOut(ByVal commandText As String) As String
 
         Dim failureDetail As String: failureDetail = stderrText
         If Len(failureDetail) = 0 Then failureDetail = "No stderr output."
-        Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
+        Err.Raise AppError.BRANCH_VERSION_COMMAND_FAILED, "BranchVersionResolver.readStdOut", _
                   "Command failed with exit code " & CStr(execResult.ExitCode) & ": " & commandText & " (" & failureDetail & ")"
     End If
     Exit Function
 CurrentDirectoryError:
-    Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
+    Err.Raise AppError.BRANCH_VERSION_CURRENT_DIRECTORY_SET_FAILED, "BranchVersionResolver.readStdOut", _
               "Failed to set shell current directory: " & workbookPath & " (" & Err.Description & ")"
     Exit Function
 ExecError:
@@ -112,7 +112,7 @@ ExecError:
        Err.Raise AppError.GIT_NOT_INSTALLED_OR_CONFIGURED, "BranchVersionResolver.readStdOut", _
                  "Git is not installed or configured. Please install git or check the system PATH configuration."
 
-    Err.Raise AppError.INVALID_VALUE, "BranchVersionResolver.readStdOut", _
+    Err.Raise AppError.BRANCH_VERSION_COMMAND_FAILED, "BranchVersionResolver.readStdOut", _
               "Failed to execute command: " & commandText & " (" & execErrorText & ")"
 End Function
 
