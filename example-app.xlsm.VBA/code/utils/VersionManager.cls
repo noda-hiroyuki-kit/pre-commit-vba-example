@@ -73,12 +73,20 @@ End Sub
 
 Private Sub ApplyToWorkbook(ByVal nextVersion As String)
     this.semVer.EnsureSemVer nextVersion, "next"
+
+    Dim normalizedNextVersion As String
+    normalizedNextVersion = normalizedVersion(nextVersion)
+
     Dim currentVersion As String: currentVersion = getVersion
     If Len(Trim$(currentVersion)) > 0 Then
-        this.semVer.EnsureNoRollback currentVersion, nextVersion
+        this.semVer.EnsureNoRollback currentVersion, normalizedNextVersion
     End If
-    setVersion_ nextVersion
+    setVersion_ normalizedNextVersion
 End Sub
+
+Private Function normalizedVersion(ByVal versionText As String) As String
+    normalizedVersion = Trim$(versionText)
+End Function
 
 Private Sub setVersion_(ByVal nextVersion As String)
     If this.isSystemUnderTest Then this.versionForTest = nextVersion: Exit Sub
