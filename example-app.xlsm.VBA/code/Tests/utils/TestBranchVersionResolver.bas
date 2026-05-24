@@ -26,7 +26,7 @@ End Sub
 Private Sub TestCleanup()
 End Sub
 
-'@TestMethod("BranchVersionResolver.setVersionFromBranchIfReleaseOrHotfix")
+'@TestMethod("BranchVersionResolver.SetVersionFromBranchIfReleaseOrHotfix")
 Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseUpgrade_UpdatesVersion()
     On Error GoTo TestFail
     Dim sut As VersionManager: Set sut = New VersionManager
@@ -44,7 +44,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("BranchVersionResolver.setVersionFromBranchIfReleaseOrHotfix")
+'@TestMethod("BranchVersionResolver.SetVersionFromBranchIfReleaseOrHotfix")
 Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_FeatureBranch_NoChange()
     On Error GoTo TestFail
     Dim sut As VersionManager: Set sut = New VersionManager
@@ -62,7 +62,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("BranchVersionResolver.setVersionFromBranchIfReleaseOrHotfix")
+'@TestMethod("BranchVersionResolver.SetVersionFromBranchIfReleaseOrHotfix")
 Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_HotfixUpgrade_UpdatesVersion()
     On Error GoTo TestFail
     Dim sut As VersionManager: Set sut = New VersionManager
@@ -80,7 +80,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("BranchVersionResolver.setVersionFromBranchIfReleaseOrHotfix")
+'@TestMethod("BranchVersionResolver.SetVersionFromBranchIfReleaseOrHotfix")
 Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseSameVersion_NoChange()
     On Error GoTo TestFail
     Dim sut As VersionManager: Set sut = New VersionManager
@@ -98,7 +98,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("BranchVersionResolver.setVersionFromBranchIfReleaseOrHotfix")
+'@TestMethod("BranchVersionResolver.SetVersionFromBranchIfReleaseOrHotfix")
 Private Sub TestSetVersionFromBranchIfReleaseOrHotfix_ReleaseLowerVersion_RaisesRollback()
     On Error GoTo TestFail
     Dim sut As VersionManager: Set sut = New VersionManager

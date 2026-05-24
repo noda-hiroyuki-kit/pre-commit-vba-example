@@ -32,7 +32,7 @@ Private Sub TestCleanup()
     'this method runs after every test in the module.
 End Sub
 
-'@TestMethod("showAppIntroduction")
+'@TestMethod("ThisAppModule.ShowAppIntroduction")
 Private Sub TestShowAppIntroductionDisplaysExpectedMessage()
     On Error GoTo TestFail
 
@@ -55,7 +55,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("showVersion")
+'@TestMethod("ThisAppModule.ShowVersion")
 Private Sub TestShowVersionDisplaysExpectedMessage()
     On Error GoTo TestFail
 
@@ -82,7 +82,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("setVersion")
+'@TestMethod("VersionInfoModule.SetVersion")
 Private Sub TestSetVersionUpdatesDocumentVersion()
     On Error GoTo TestFail
 
@@ -104,7 +104,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("setVersion")
+'@TestMethod("VersionInfoModule.SetVersion")
 Private Sub TestSetVersionDoesNothingWhenInputIsEmpty()
     On Error GoTo TestFail
 
@@ -127,7 +127,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("setVersion")
+'@TestMethod("VersionInfoModule.SetVersion")
 Private Sub TestSetVersionRejectsRollback()
     On Error GoTo TestFail
 
@@ -156,7 +156,7 @@ TestFail:
     Resume TestExit
 End Sub
 
-'@TestMethod("setVersion")
+'@TestMethod("VersionInfoModule.SetVersion")
 Private Sub TestSetVersionCreatesManagerWhenNotProvided()
     On Error GoTo TestFail
 
