@@ -39,7 +39,7 @@ End Sub
 Public Sub AppIntroductionButton_onAction(ByVal control As IRibbonControl)
     On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
-    ThisAppModule.showAppIntroduction
+    ThisAppModule.ShowAppIntroduction
 ErrorHandler:
     Excel.Application.EnableEvents = True
     On Error GoTo 0
@@ -51,7 +51,7 @@ End Sub
 Public Sub AppVersionsButton_onAction(ByVal control As IRibbonControl)
     On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
-    ThisAppModule.showVersion
+    ThisAppModule.ShowVersion
 ErrorHandler:
     Excel.Application.EnableEvents = True
     On Error GoTo 0

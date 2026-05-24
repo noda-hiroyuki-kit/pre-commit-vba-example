@@ -3,22 +3,12 @@ Attribute VB_Name = "ThisAppModule"
 Option Explicit
 Option Private Module
 
-Public Sub showAppIntroduction()
+Public Sub ShowAppIntroduction()
     MsgBox "This app is example-app.", vbOKOnly + vbSystemModal + vbInformation
 End Sub
 
-Public Sub showVersion()
-    MsgBox "example-app" & vbNewLine & ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value, _
-        vbOKOnly + vbSystemModal + vbInformation
-End Sub
-
-Public Sub setVersion()
-    Dim response As String
-    response = InputBox("Input Version")
-    If Len(response) = 0 Then Exit Sub
-    setDocumentVersion response
-End Sub
-
-Private Sub setDocumentVersion(ByVal version As String)
-    ThisWorkbook.BuiltinDocumentProperties.Item("Document Version").Value = version
+Public Sub ShowVersion(Optional ByVal manager As VersionManager)
+    Dim managerLocal As VersionManager: Set managerLocal = manager
+    If managerLocal Is Nothing Then Set managerLocal = New VersionManager: managerLocal.Create ThisWorkbook
+    MsgBox "example-app" & vbNewLine & managerLocal.Version, vbOKOnly + vbSystemModal + vbInformation
 End Sub
