@@ -128,6 +128,7 @@ No code changes were made.
 
 - Verify macro-enabled workbook was edited in Excel VBE, not directly in `.xls?.VBA` folder
 - Confirm staged files: `git diff --cached --stat`
+- If pre-commit updates additional generated files (for example `.frm` / `.frx`) outside the current thread scope, stop and confirm include/exclude decision before commit
 - Confirm exact changes: `git diff --cached -- <workbook>.xls?` (for example, `git diff --cached -- example-app.xlsm`)
 - Use a clear Conventional Commit message
 - Push immediately after commit

@@ -105,10 +105,13 @@ Cleanup:
     End If
 End Sub
 ```
-5. **Stage changes**: `git add .`
+5. **Stage changes**: stage only intended files for the current task (avoid broad `git add .` when possible)
 6. **Run pre-commit**: `uv run pre-commit` (this may update generated files)
-7. **Re-stage only if pre-commit changed files**: `git add .`
-8. **Review staged diff**: `git diff --cached -- <workbook>.xls?`
+7. **Re-stage only if pre-commit changed files**: stage only the intended scope again
+8. **Review staged scope and diff**:
+   - `git diff --cached --stat`
+   - `git diff --cached -- <workbook>.xls?`
+   - if unrelated generated files (for example `.frm` / `.frx`) appear, decide include/exclude before commit
 9. **Commit and push**: Use Conventional Commits style
 
 ### Testing Patterns
