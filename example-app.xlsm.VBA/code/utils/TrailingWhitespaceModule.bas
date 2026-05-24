@@ -17,14 +17,14 @@ CleanAllModulesInWorkbookError:
            "Clean All Modules"
 End Sub
 
-Private Sub ProcessEachModule(ByVal vbProj As VBProject)
-    Dim component As VBComponent
+Private Sub ProcessEachModule(ByVal vbProj As VBIDE.VBProject)
+    Dim component As VBIDE.VBComponent
     For Each component In vbProj.VBComponents
         CleanModuleCode component
     Next component
 End Sub
 
-Private Sub CleanModuleCode(ByRef component As VBComponent)
+Private Sub CleanModuleCode(ByRef component As VBIDE.VBComponent)
     If component.CodeModule.CountOfLines = 0 Then Exit Sub
     Dim originalCode As String
     originalCode = component.CodeModule.lines(1, component.CodeModule.CountOfLines)
@@ -35,7 +35,7 @@ Private Sub CleanModuleCode(ByRef component As VBComponent)
 End Sub
 
 '@Ignore ParameterCanBeByVal
-Private Sub ReplaceModuleCode(ByRef component As VBComponent, ByVal originalCode As String, ByVal newCode As String)
+Private Sub ReplaceModuleCode(ByRef component As VBIDE.VBComponent, ByVal originalCode As String, ByVal newCode As String)
     If originalCode = newCode Then Exit Sub
     component.CodeModule.DeleteLines 1, component.CodeModule.CountOfLines
     component.CodeModule.InsertLines 1, newCode
