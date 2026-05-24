@@ -45,17 +45,17 @@ Public Function IsValid(ByVal ValueArg As String) As ValidationResult
     Dim valueLength As Long: valueLength = LenB(StrConv(ValueArg, vbFromUnicode))
     If valueLength < MIN_LENGTH Then
         IsValid.SetInvalid
-        IsValid.SetMessage "Code length is " & MIN_LENGTH & " Characters or more."
+        IsValid.SetMessage "Code must be at least " & MIN_LENGTH & " characters."
         Exit Function
     End If
     If valueLength > MAX_LENGTH Then
         IsValid.SetInvalid
-        IsValid.SetMessage "Code length is " & MAX_LENGTH & " Characters or less."
+        IsValid.SetMessage "Code must be at most " & MAX_LENGTH & " characters."
         Exit Function
     End If
     If Not isOkInCharacterType(ValueArg) Then
         IsValid.SetInvalid
-        IsValid.SetMessage "Code Characters MUST be Upper case letters or numbers."
+        IsValid.SetMessage "Code must contain only uppercase letters and digits."
         Exit Function
     End If
     IsValid.SetValid
