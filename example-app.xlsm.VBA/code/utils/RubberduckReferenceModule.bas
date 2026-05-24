@@ -54,9 +54,11 @@ End Function
 Private Function GetExistingRubberduckReferencePath() As String
     Dim ref As Reference
     For Each ref In ThisWorkbook.VBProject.References
-        If IsRubberduckReference(ref) Then
-            GetExistingRubberduckReferencePath = ref.FullPath
-            Exit Function
+        If Not ref.IsBroken Then
+            If IsRubberduckReference(ref) Then
+                GetExistingRubberduckReferencePath = ref.FullPath
+                Exit Function
+            End If
         End If
     Next ref
 End Function
@@ -93,9 +95,11 @@ Private Function TryRemoveRubberduckReference() As Boolean
     Dim target As Reference
 
     For Each ref In ThisWorkbook.VBProject.References
-        If IsRubberduckReference(ref) Then
-            Set target = ref
-            Exit For
+        If Not ref.IsBroken Then
+            If IsRubberduckReference(ref) Then
+                Set target = ref
+                Exit For
+            End If
         End If
     Next ref
 
@@ -106,6 +110,8 @@ Private Function TryRemoveRubberduckReference() As Boolean
 End Function
 
 Private Function IsRubberduckReference(ByVal ref As Reference) As Boolean
+    If ref.IsBroken Then Exit Function
+
     Dim regEx As RegExp: Set regEx = New RegExp
     regEx.Pattern = RUBBERDUCK_REGEX
     regEx.IgnoreCase = True
