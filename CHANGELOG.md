@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Refactor BranchVersionResolver by splitting version resolution and extracting format helpers.  
-    BranchVersionResolver のバージョン解決処理を分割し、整形ヘルパーを抽出.
+- Refactor BranchVersionResolver by extracting `resolveVersionText` and helper subs for setting values and raising errors.  
+    BranchVersionResolver で `resolveVersionText` と、値設定・エラー送出の補助サブルーチンを切り出すようにリファクタリング.
 - Align RegisterProduct naming between form modules.  
     フォーム関連モジュール間の RegisterProduct 命名を統一.
 
