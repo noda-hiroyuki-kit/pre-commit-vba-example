@@ -3,7 +3,7 @@ Attribute VB_Name = "ShowFormModule"
 Option Explicit
 Option Private Module
 
-Public Sub registerProduct()
+Public Sub RegisterProduct()
     Dim form As IForm
     Set form = New RegisterProductForm
 

@@ -51,17 +51,25 @@ End Sub
 
 Public Sub SetVersionFromBranchIfReleaseOrHotfix()
     checkCreated
-
     Dim branchName As String: branchName = getCurrentBranchName()
-
-    Dim versionText As String: versionText = extractVersionFromBranchName(branchName)
+    Dim versionText As String: versionText = resolveVersionText(branchName)
     If Len(versionText) = 0 Then Exit Sub
+    setVersionFromBranch branchName, versionText
+End Sub
 
+Private Function resolveVersionText(ByVal branchName As String) As String
+    resolveVersionText = extractVersionFromBranchName(branchName)
+End Function
+
+Private Sub setVersionFromBranch(ByVal branchName As String, ByVal versionText As String)
     On Error GoTo SetVersionError
     this.manager.SetVersion versionText
     Exit Sub
-
 SetVersionError:
+    raiseSetVersionError branchName
+End Sub
+
+Private Sub raiseSetVersionError(ByVal branchName As String)
     Err.Raise Err.Number, "BranchVersionResolver.SetVersionFromBranchIfReleaseOrHotfix", _
               "Failed to set version from branch """ & branchName & """: " & Err.Description
 End Sub

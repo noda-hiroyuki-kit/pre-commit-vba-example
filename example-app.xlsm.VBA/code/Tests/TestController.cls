@@ -77,6 +77,7 @@ Public Property Get Fakes() As Object
     Set Fakes = this.Fakes
 End Property
 
+'@Ignore ProcedureNotUsed
 Public Property Get Mocks() As Object
     Set Mocks = this.Mocks
 End Property

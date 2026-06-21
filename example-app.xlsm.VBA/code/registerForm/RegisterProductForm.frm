@@ -95,8 +95,8 @@ Private Sub ValidateForm()
     setLabelProperties Me.NameValidationMessageLabel, this.nameResult
 End Sub
 
-Private Sub setLabelProperties(ByVal control As Object, ByVal result As ValidationResult)
-    With control
+Private Sub setLabelProperties(ByVal labelControl As MSForms.Label, ByVal result As ValidationResult)
+    With labelControl
         .Caption = result.Message
         .ForeColor = setCaptionColor(result)
     End With

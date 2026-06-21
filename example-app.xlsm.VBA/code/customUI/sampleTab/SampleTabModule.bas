@@ -63,7 +63,7 @@ End Sub
 Public Sub RegisterProductButton_onAction(ByVal control As IRibbonControl)
     On Error GoTo ErrorHandler
     Excel.Application.EnableEvents = False
-    ShowFormModule.registerProduct
+    ShowFormModule.RegisterProduct
 ErrorHandler:
     Excel.Application.EnableEvents = True
     On Error GoTo 0
