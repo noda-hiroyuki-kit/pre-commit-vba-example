@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-22
+
 ### Changed
 
 - Refactor BranchVersionResolver by extracting `resolveVersionText` and helper subs for setting values and raising errors.  
@@ -28,5 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release as first version.  
     最初のバージョンとしてリリース.
 
-[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.1
 [0.1.0]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.0
