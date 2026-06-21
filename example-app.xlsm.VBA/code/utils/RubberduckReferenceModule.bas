@@ -143,7 +143,7 @@ Private Function TryAddRubberduckReferenceFromKnownPath() As Boolean
         Exit Function
     End If
 
-    If TryAddRubberduckReferenceFromFile("C:\ProgramData\Rubberduck\Rubberduck.x86.tlb") Then
+    If TryAddRubberduckReferenceFromFile("C:\ProgramData\Rubberduck\Rubberduck.x32.tlb") Then
         TryAddRubberduckReferenceFromKnownPath = True
         Exit Function
     End If

@@ -1,12 +1,12 @@
 ---
 repos:
   - repo: https://github.com/noda-hiroyuki-kit/pre-commit-vba
-    rev: v0.3.0
+    rev: v0.3.5
     hooks:
       - id: extract-vba-code
       - id: check-excel-book-version
   - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v10.0.0
+    rev: v10.0.1
     hooks:
       - id: cspell  # Spell check changed files
       - id: cspell  # Spell check the commit message
