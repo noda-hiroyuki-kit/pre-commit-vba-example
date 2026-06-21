@@ -16,7 +16,7 @@ Option Explicit
 
 'canRef = True : in developing
 'canRef = False : in deploy
-#Const canRef = False
+#Const canRef = True
 
 #If canRef Then
 Private Type TTestController
@@ -77,6 +77,7 @@ Public Property Get Fakes() As Object
     Set Fakes = this.Fakes
 End Property
 
+'@Ignore ProcedureNotUsed
 Public Property Get Mocks() As Object
     Set Mocks = this.Mocks
 End Property
