@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Refactor BranchVersionResolver by splitting version resolution and extracting format helpers.  
+    BranchVersionResolver のバージョン解決処理を分割し、整形ヘルパーを抽出.
+- Align RegisterProduct naming between form modules.  
+    フォーム関連モジュール間の RegisterProduct 命名を統一.
+
+### Fixed
+
+- Add explicit type to label parameter in register form validation helper.  
+    登録フォームのバリデーションヘルパーで label パラメータの型を明示.
+- Add Rubberduck ignore annotation for unused test mock procedure warning.  
+    テスト用モックの未使用警告に対して Rubberduck の ignore 注釈を追加.
+
 ## [0.1.0] - 2026-06-21
 
 ### Added
