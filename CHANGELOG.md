@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-13
+
+### Changed
+
+- Update the pre-commit-vba hook to v0.4.1.  
+    pre-commit-vba フックを v0.4.1 に更新.
+- Update development dependency lock versions.  
+    開発依存関係のロックバージョンを更新.
+
 ## [0.1.1] - 2026-06-22
 
 ### Changed
@@ -30,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release as first version.  
     最初のバージョンとしてリリース.
 
-[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.2
 [0.1.1]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.1
 [0.1.0]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.0
