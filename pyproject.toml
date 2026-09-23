@@ -8,5 +8,6 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "pre-commit>=4.6.2",
+    "prek>=0.5.3",
+    "zizmor>=1.30.1",
 ]

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `zizmor` and `pinact` for GitHub Actions security checks and version pinning.  
+  GitHub Actions のセキュリティチェックとバージョン固定のために `zizmor` と `pinact` を追加.
+
+### Changed
+
+- Replace `pre-commit` with `prek` and use its built-in hooks.  
+  `pre-commit` を `prek` に置き換え、組み込みフックを使用.
+- Update the automated hook update workflow to use `prek` and pinned GitHub Actions versions.  
+  自動フック更新ワークフローを `prek` とバージョン固定済みの GitHub Actions に更新.
+
 ## [0.1.2] - 2026-09-13
 
 ### Changed

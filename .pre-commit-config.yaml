@@ -16,8 +16,7 @@ repos:
           - --no-progress
           - --no-summary
         stages: [commit-msg]
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+  - repo: builtin
     hooks:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
