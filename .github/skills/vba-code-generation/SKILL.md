@@ -106,7 +106,7 @@ Cleanup:
 End Sub
 ```
 5. **Stage changes**: stage only intended files for the current task (avoid broad `git add .` when possible)
-6. **Run pre-commit**: `uv run pre-commit` (this may update generated files)
+6. **Run pre-commit**: `uv run prek` (this may update generated files)
 7. **Re-stage only if pre-commit changed files**: stage only the intended scope again
 8. **Review staged scope and diff**:
    - `git diff --cached --stat`
@@ -130,7 +130,7 @@ Use VBA Immediate Window (Ctrl+G in VBE) to validate:
 - [ ] Specific types used (no `Object` type)
 - [ ] Variables declared just before use
 - [ ] Regex patterns validated and escaped correctly
-- [ ] Pre-commit extraction verified: `uv run pre-commit`
+- [ ] Pre-commit extraction verified: `uv run prek`
 - [ ] Staged diff reviewed: `git diff --cached`
 - [ ] Commit message follows Conventional Commits style
 
