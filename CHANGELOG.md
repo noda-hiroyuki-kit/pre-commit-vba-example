@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update the pre-commit-vba hook to v0.4.3.  
+    pre-commit-vba フックを v0.4.3 に更新.
 - Replace `pre-commit` with `prek` and use its built-in hooks.  
   `pre-commit` を `prek` に置き換え、組み込みフックを使用.
 - Update the automated hook update workflow to use `prek` and pinned GitHub Actions versions.  
