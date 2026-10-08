@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-09-27
+
+### Changed
+
+- Update the pre-commit-vba hook to v0.4.4.  
+    pre-commit-vba フックを v0.4.4 に更新.
+
+## [0.1.3] - 2026-09-25
+
 ### Added
 
 - Add `zizmor` and `pinact` for GitHub Actions security checks and version pinning.  
@@ -14,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Update the pre-commit-vba hook to v0.4.3.  
+    pre-commit-vba フックを v0.4.3 に更新.
 - Replace `pre-commit` with `prek` and use its built-in hooks.  
   `pre-commit` を `prek` に置き換え、組み込みフックを使用.
 - Update the automated hook update workflow to use `prek` and pinned GitHub Actions versions.  
@@ -51,7 +62,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release as first version.  
     最初のバージョンとしてリリース.
 
-[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.4
+[0.1.3]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.3
 [0.1.2]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.2
 [0.1.1]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.1
 [0.1.0]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.0
