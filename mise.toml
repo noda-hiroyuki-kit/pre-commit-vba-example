@@ -1,4 +1,4 @@
 [tools]
 node = "latest"
 pinact = "latest"
-uv = "latest"
+prek = "latest"
