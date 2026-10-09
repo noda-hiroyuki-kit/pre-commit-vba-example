@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-10-09
+
+### Changed
+
+- Migrate hook configuration to `prek.toml` and remove the `uv`-based setup.  
+  フック設定を `prek.toml` に移行し、`uv` ベースの設定を削除.
+- Update the automated `prek` configuration workflow to install and update `prek` directly.  
+  自動 `prek` 設定更新ワークフローを `prek` の直接インストール・更新に変更.
+
 ## [0.1.4] - 2026-09-27
 
 ### Changed
@@ -62,7 +71,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release as first version.  
     最初のバージョンとしてリリース.
 
-[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.5...HEAD
+[0.1.5]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.5
 [0.1.4]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.4
 [0.1.3]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.3
 [0.1.2]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.2
