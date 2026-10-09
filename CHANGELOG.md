@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Migrate hook configuration to `prek.toml` and remove the `uv`-based setup.  
+  フック設定を `prek.toml` に移行し、`uv` ベースの設定を削除.
+- Update the automated `prek` configuration workflow to install and update `prek` directly.  
+  自動 `prek` 設定更新ワークフローを `prek` の直接インストール・更新に変更.
+
 ## [0.1.4] - 2026-09-27
 
 ### Changed

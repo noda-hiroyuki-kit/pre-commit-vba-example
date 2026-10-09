@@ -1,0 +1,45 @@
+---
+# yamllint disable rule:line-length
+name: prek update
+
+"on":
+  schedule:
+    - cron: "0 0 * * 6"  # Every Saturday at 00:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup prek
+        uses: j178/prek-action@1382ad72dea72f9d53832f2bcb65b3e87a947204  # v3.0.1
+        with:
+          install-only: true
+
+      - name: Update prek configuration
+        run: prek update
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1  # v8.1.1
+        with:
+          commit-message: "chore: prek update"
+          title: "chore: prek update"
+          body: |
+            Automated update of `prek.toml` by GitHub Actions.
+
+            - Ran `prek update`
+            - Schedule: every Saturday 00:00 UTC
+          branch: feature/update-prek-toml
+          delete-branch: true
+          add-paths: |
+            prek.toml
