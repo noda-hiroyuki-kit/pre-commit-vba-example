@@ -3,6 +3,7 @@
 #:schema https://www.schemastore.org/prek.json
 
 default_install_hook_types = ["pre-commit", "commit-msg"]
+default_stages = ["pre-commit", "manual"]
 
 [[repos]]
 repo = "https://github.com/noda-hiroyuki-kit/pre-commit-vba"
