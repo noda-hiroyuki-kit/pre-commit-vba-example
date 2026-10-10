@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set the default `prek` stages to `pre-commit` and `manual`.  
+  `prek` のデフォルトステージを `pre-commit` と `manual` に設定.
+
 ## [0.1.5] - 2026-10-09
 
 ### Changed
