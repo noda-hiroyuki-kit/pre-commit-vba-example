@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-10-13
+
 ### Changed
 
 - Set the default `prek` stages to `pre-commit` and `manual`.  
   `prek` のデフォルトステージを `pre-commit` と `manual` に設定.
+- Update the pre-commit-vba hook to v0.4.7.  
+    pre-commit-vba フックを v0.4.7 に更新.
 
 ## [0.1.5] - 2026-10-09
 
@@ -76,7 +80,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release as first version.  
     最初のバージョンとしてリリース.
 
-[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.6
 [0.1.5]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.5
 [0.1.4]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.4
 [0.1.3]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.3
