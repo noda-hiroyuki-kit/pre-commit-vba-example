@@ -7,7 +7,7 @@ default_stages = ["pre-commit", "manual"]
 
 [[repos]]
 repo = "https://github.com/noda-hiroyuki-kit/pre-commit-vba"
-rev = "v0.4.7"
+rev = "v0.4.8"
 hooks = [
   { id = "extract-vba-code" },
   { id = "check-office-file-integrity" },
