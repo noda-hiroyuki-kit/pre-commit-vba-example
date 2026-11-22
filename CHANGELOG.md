@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-11-22
+
+### Changed
+
+- Update the pre-commit-vba hook to v0.4.11.  
+  pre-commit-vba フックを v0.4.11 に更新.
+- Update the cspell-cli hook to v10.4.1.  
+  cspell-cli フックを v10.4.1 に更新.
+- Update the `prek` auto-update workflow actions to v3.1.1 and v8.1.3.  
+  `prek` 自動更新ワークフローのアクションを v3.1.1 と v8.1.3 に更新.
+
 ## [0.1.8] - 2026-10-25
 
 ### Changed
@@ -96,7 +107,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Release as first version.  
     最初のバージョンとしてリリース.
 
-[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.8...HEAD
+[Unreleased]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/compare/v0.1.9...HEAD
+[0.1.9]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.9
 [0.1.8]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.8
 [0.1.7]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.7
 [0.1.6]: https://github.com/noda-hiroyuki-kit/pre-commit-vba-example/releases/tag/v0.1.6
